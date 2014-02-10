@@ -61,11 +61,14 @@ class SrmInkassoControllerBill extends JControllerForm
         }
 
         //Fakturalauf-Daten holen
+
         //Zugriff auf einzelne Fakturalaeufe
-        $billModel = $this->getModel('bill', '', array());;
+        /* @var $billModel SrmInkassoModelBill */
+        $billModel = $this->getModel('bill', '', array());
         $billItem = $billModel->getItem($billId);
 
         //Zugriff auf Userrechnungen
+        /* @var $userfakturaModel SrmInkassoModelUserfaktura */
         $userfakturaModel = $this->getModel('userfaktura');
 
         //pdf-klasse erstellen
