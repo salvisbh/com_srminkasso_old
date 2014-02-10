@@ -1,0 +1,63 @@
+<?php
+/**
+* Joomla! 2.5 - Erweiterungen programmieren
+*
+* Tabelle Mythings
+*
+* @package    SrmInkasso
+* @subpackage Backend
+* @author     Hp. Salvisberg
+* @license    GNU/GPL
+*/
+defined('_JEXEC') or die;
+
+/**
+* Erweiterung der Klasse JTable
+*/
+class SrmInkassoTableActivities extends JTable
+{
+	/**
+	* @var int $id Primärschlüssel
+	*/
+	public $id;
+	
+	/**
+	 * @var int $fk_leistungsart Fremdschlüssel auf Leistungsart
+	 */
+	public $fk_leistungsart;
+	
+	/**
+	 * @var int $fk_fakturierung Fremdschlüssel auf Fakturierung
+	 */
+	public $fk_fakturierung;
+
+	/**
+	* @var string $titel - Der Kurztitel
+	*/
+	public $titel;
+	
+	/**
+	 * @var string $beschreibung - Zusatzkommentar
+	 */
+	public $beschreibung;
+
+	/**
+	* @var datum $datum - Das Datum der Leistung
+	*/
+	public $datum;
+	
+	/**
+	 * @var preis $preis - Der Preis der Leistung
+	 */
+	public $preis;
+
+	/**
+	* Konstruktor setzt Tabellenname, Primärschlüssel und das
+	* übergebene Datenbankobjekt.
+	*/
+	public function __construct($db)
+	{
+		parent::__construct('#__srmink_leistungen', 'id', $db);
+	}
+
+}

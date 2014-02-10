@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form>
+<!-- 	<fields name="main"> -->
+		<fieldset name="Grundlayout">
+			<field name="id"
+				type="text"
+				default="0" />
+					
+			<field name="titel"
+				type="text"
+				class="inputbox"
+				label="Titel"
+				description="Titel des Layouts"
+				size="40"
+				required="true" />
+	
+			<field name="aktiv" 
+				type="list" 
+				default="1" 
+				label="Aktiv" 
+				description="Template aktiviert?">
+				
+				  <option value="0">inaktiv</option>
+				  <option value="1">aktiviert</option>
+				  
+			</field>
+
+            <field name="rand_links"
+                   type="text"
+                   class="inputbox"
+                   label="Rand links"
+                   description="Rand in mm"
+                   size="5"
+                   required="true" />
+
+            <field name="rand_rechts"
+                   type="text"
+                   class="inputbox"
+                   label="Rand rechts"
+                   description="Rand in mm"
+                   size="5"
+                   required="true" />
+
+            <field name="rand_oben"
+                   type="text"
+                   class="inputbox"
+                   label="Rand oben"
+                   description="Rand in mm"
+                   size="5"
+                   required="true" />
+
+            <field name="rand_unten"
+                   type="text"
+                   class="inputbox"
+                   label="Rand unten"
+                   description="Rand in mm"
+                   size="5"
+                   required="true" />
+
+			<field name="body" 
+				label ="Formularkörper" 
+				type="editor" 
+				width="500"
+				rows="40" 
+				filter="safehtml" />
+		</fieldset>
+		
+		<fieldset name="Belegzeile">
+
+            <field name="position"
+                   label ="Positionszeile"
+                   type="editor"
+                   width="500"
+                   rows="2"
+                   filter="safehtml" />
+	
+		</fieldset>
+<!-- 	</fields> -->
+</form>

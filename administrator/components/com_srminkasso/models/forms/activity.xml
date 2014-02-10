@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="text"
+			default="0" />
+		<field
+			name="datum"
+			type="calendar"
+        	label="Leistungsdatum"
+        	description="Datum der Leistung oder des Anlasses"
+        	required="true"
+        	size="20" />
+			
+		<field
+			name="titel"
+			type="text"
+			class="inputbox"
+			label="Titel"
+			description="Titel der Leistungsart"
+			size="100"
+			required="true" />
+
+		<field 
+			name="fk_leistungsart" 
+			type="sql" 
+			label="Leistungsart" 
+			required="true"
+			query="SELECT id, titel FROM #__srmink_leistungsarten" 
+			key_field="id"
+			value_field="titel" />
+			
+		<field
+			name="preis"
+			type="text"
+			label="Preis" />
+		
+		<field
+        	name="beschreibung"
+        	type="textarea"
+        	label="Beschreibung"
+        	description="Zusätzliche Beschreibung"
+			rows="4"
+			cols="50" />
+
+	</fieldset>
+</form>

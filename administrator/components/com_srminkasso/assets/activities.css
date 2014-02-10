@@ -1,0 +1,12 @@
+/*
+** Stylesheet fuer Leistungsliste
+** 
+*/
+
+/* icons (48px) for Administrator controlpanel */ 
+div.icon-48-import {	background: url('images/icon-48-import.png') no-repeat left;}
+
+/* icons (32px) for Administrator controlpanel */ 
+.icon-32-import {	background: url('images/icon-32-import.png') no-repeat left;}
+
+

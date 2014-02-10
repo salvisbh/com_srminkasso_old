@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="text"
+			default="0" />
+			
+		<field 	name="fk_userid"
+        		type="user"
+        		label="Leistungsbezüger"
+        		description="Schwimmer oder Leistungsbezüger" />
+
+		<field 
+			name="fk_leistung" 
+			type="sql" 
+			label="Leistung" 
+			required="true"
+			query="SELECT id, titel FROM #__srmink_leistungen" 
+			key_field="id"
+			value_field="titel" />
+
+		<field
+			name="individual_preis"
+			type="text"
+			label="Individueller Preis" />
+			
+		<field 
+			name="fk_faktura" 
+			type="sql" 
+			label="Faktura-Lauf" 
+			required="false"
+			query="SELECT id, titel FROM #__srmink_fakturierungen where fk_fakturastatus &lt; 2" 
+			key_field="id"
+			value_field="titel">
+			
+			<option value="0">Nicht zugewiesen</option>
+		
+		</field>
+			
+	</fieldset>
+</form>

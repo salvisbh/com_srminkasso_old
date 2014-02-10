@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form>
+	<fieldset>
+
+		<field name="usergroup" 
+			type="usergroup"
+	        label="Benutzergruppe"
+	        description="Benutzergruppe zum Generieren von Leistungspositionen"
+	        default="0" />
+        
+		<field 
+			name="fk_leistung" 
+			type="sql" 
+			label="Leistungsart" 
+			required="true"
+			query="SELECT id, titel FROM #__srmink_leistungen" 
+			key_field="id"
+			value_field="titel" />
+
+	</fieldset>
+</form>

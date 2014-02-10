@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="text"
+			default="0" />
+		<field
+			name="datum"
+			type="calendar"
+        	label="Fakturierungsdatum"
+        	description="Datum des Rechnungslaufs"
+        	required="true"
+        	size="20" />
+			
+		<field 
+			name="fk_fakturastatus" 
+			type="sql" 
+			label="Rechnungsstatus" 
+			required="true"
+			query="SELECT id, status FROM #__srmink_fakturastatus" 
+			key_field="id"
+			value_field="status" />
+				
+		<field
+			name="titel"
+			type="text"
+			class="inputbox"
+			label="Titel"
+			description="Titel der Fakturierung"
+			size="40"
+			required="true" />
+
+		<field
+			name="faellig"
+			type="calendar"
+        	label="Fälligkeitsdatum"
+        	description="Datum für Zahlungsfrist"
+        	required="true"
+        	size="20" />
+		
+		<field
+        	name="kopftext"
+        	type="textarea"
+        	label="Kopftext"
+        	description="Text unterhalb des Rechnungsbetreffs"
+			rows="5"
+			cols="80" />
+			
+		<field
+        	name="fusstext"
+        	type="textarea"
+        	label="Fusstext"
+        	description="Text unterhalb der Rechnungspositionen"
+			rows="5"
+			cols="80" />
+			
+		<field 
+			name="fk_template" 
+			type="sql" 
+			label="Rechnungstemplate" 
+			required="true"
+			query="SELECT id, titel FROM #__srmink_templates" 
+			key_field="id"
+			value_field="titel" />
+
+	</fieldset>
+</form>
