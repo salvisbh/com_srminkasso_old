@@ -92,7 +92,7 @@ class SrmInkassoControllerBill extends JControllerForm
 
     }
 
-    private function createUserFaktura($pdfDoc,$userId,$ufTable,$billItem,$positionsModel){
+    private function createUserFaktura(PdfDocument $pdfDoc,$userId,$ufTable,$billItem,$positionsModel){
 
         //pdf Elemente holen
         $bodyTemplate = $pdfDoc->getMainTemplate();
