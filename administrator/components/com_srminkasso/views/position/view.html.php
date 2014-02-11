@@ -21,6 +21,9 @@ class SrmInkassoViewPosition extends JView
 	/* Das Eingabeformular */
 	protected $form;
 
+    /* Die Form-ID des elements it im Parent - form-element */
+    protected $formId = 'position-form';
+
 	/**
 	 * Die Methode display wird überschrieben, um den für die
 	 * Formularansicht verwendeten Datensatz bereitzustellen.

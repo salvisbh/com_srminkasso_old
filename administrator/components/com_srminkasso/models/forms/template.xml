@@ -58,14 +58,67 @@
                    size="5"
                    required="true" />
 
-			<field name="body" 
+            <field name="image_zeigen"
+                   type="list"
+                   default="0"
+                   label="Logo"
+                   description="SRM-Logo anzeigen?">
+
+            <option value="0">inaktiv</option>
+            <option value="1">aktiviert</option>
+
+            </field>
+
+            <field name="image_x"
+                   type="text"
+                   class="inputbox"
+                   label="x-position"
+                   description="Position in der Breite"
+                   size="5"
+                   required="true" />
+
+            <field name="image_y"
+                   type="text"
+                   class="inputbox"
+                   label="y-position"
+                   description="Position in der Höhe"
+                   size="5"
+                   required="true" />
+
+            <field name="image_breite"
+                   type="text"
+                   class="inputbox"
+                   label="Breite"
+                   description="Breite in Pixel"
+                   size="5"
+                   required="true" />
+
+            <field name="image_hoehe"
+                   type="text"
+                   class="inputbox"
+                   label="Höhe"
+                   description="Höhe in Pixel"
+                   size="5"
+                   required="true" />
+
+            <field name="image_name"
+                   type="text"
+                   class="inputbox"
+                   label="Name Logo"
+                   description="Name des Logos ohne Pfad, muss im Verzeichnis assets/images liegen"
+                   size="45"
+                   required="false" />
+
+            <field name="body"
 				label ="Formularkörper" 
 				type="editor" 
 				width="500"
 				rows="40" 
 				filter="safehtml" />
+
 		</fieldset>
-		
+
+
 		<fieldset name="Belegzeile">
 
             <field name="position"

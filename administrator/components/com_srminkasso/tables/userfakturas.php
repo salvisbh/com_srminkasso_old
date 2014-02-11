@@ -83,7 +83,7 @@ class SrmInkassoTableUserfakturas extends JTable
             $result = $db->insertObject($this->getTableName(),$obj);
 
             //...und nochmals laden
-            $bResult = $this->getUserFakturaForBill($userid,$billId);
+            $bResult = $this->loadUserFakturaForBill($userid,$billId);
         }
 
         return $bResult;
@@ -97,6 +97,8 @@ class SrmInkassoTableUserfakturas extends JTable
      */
     public function loadUserFakturaForBill($userid,$billId){
 
+        $loadOk = false;
+
         $db	= $this->getDbo();
         $query	= $db->getQuery(true);
         $query->select('id')->from($this->getTableName());
@@ -107,7 +109,10 @@ class SrmInkassoTableUserfakturas extends JTable
         $db->setQuery($query);
         $idObj = $db->loadObject();
 
-        $loadOk = $this->load($idObj->id);
+        if(!is_null($idObj)){
+            $loadOk = $this->load($idObj->id);
+        }
+
         return $loadOk;
 
     }

@@ -84,7 +84,7 @@ class SrmInkassoTablePositions extends JTable
         $db	= $this->getDbo();
         $query	= $db->getQuery(true);
 
-        $query->select('p.individual_preis')->from($this->getTableName() .' p');
+        $query->select('p.individual_preis,p.kommentar')->from($this->getTableName() .' p');
         $query->select('l.datum,l.titel,l.beschreibung,l.preis');
         $query->join('LEFT', '#__srmink_leistungen AS l ON p.fk_leistung = l.id');
 

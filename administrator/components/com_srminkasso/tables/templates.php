@@ -54,6 +54,13 @@ class SrmInkassoTableTemplates extends JTable
     public $rand_rechts;
     public $rand_oben;
     public $rand_unten;
+
+    public $image_zeigen;
+    public $image_x;
+    public $image_y;
+    public $image_breite;
+    public $image_hoehe;
+    public $image_name;
 	
 	/**
 	* Konstruktor setzt Tabellenname, Primärschlüssel und das

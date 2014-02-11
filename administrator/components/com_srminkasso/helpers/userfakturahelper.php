@@ -80,6 +80,14 @@ class UserFakturaHelper {
         foreach ($posList as $pos) {
             $posPdf['datum'] = FormatHelper::formatDate($pos->datum);
             $posPdf['position'] = $pos->titel; //todo beschreibung anhaengen
+
+            if(! is_null($pos->kommentar) && strlen($pos->kommentar) > 0){
+                $posPdf['kommentar'] = '<br>' . $pos->kommentar;
+            }
+            else{
+                $posPdf['kommentar']='';
+            }
+
             $posPdf['betrag'] = FormatHelper::formatWaehrung($pos->preis); //todo individueller Preis holen
             $total += $pos->preis;
             $posHtml .= $pdfDoc->replaceContentParameters($posPdf, $positionTemplate);

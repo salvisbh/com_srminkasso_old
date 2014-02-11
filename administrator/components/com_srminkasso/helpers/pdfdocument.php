@@ -11,14 +11,19 @@ defined('_JEXEC') or die('Restricted access');
 
 JLoader::register('TCPDF', JPATH_COMPONENT . '/assets/tcpdf/tcpdf.php');
 JLoader::register('PdfMerger', JPATH_COMPONENT . '/helpers/pdfmerger.php');
+JLoader::register('SrmInkassoTableTemplates', JPATH_COMPONENT . '/tables/templates.php');
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_srminkasso'.DS.'tables');
 
 class PdfDocument {
 
+    /* @var $pdf TCPDF */
     private $pdf;
+
+    /* @var $templRow SrmInkassoTableTemplates */
     private $templRow;
 
     public function __construct($templateId){
+
         $this->templRow =& Jtable::getInstance('templates','SrmInkassoTable');
         $this->templRow->load($templateId);
 
@@ -29,12 +34,28 @@ class PdfDocument {
         $this->pdf->SetTitle('Elektronische Rechnung SRM');
         $this->pdf->SetSubject('Leistungsverrechnung');
         $this->pdf->SetKeywords('Leistungen, Rechnung, SRM');
+        $this->pdf->SetAutoPageBreak(TRUE,$this->templRow->rand_unten);
 
         //Raender einstellen
         $this->pdf->setMargins($this->templRow->rand_links,
             $this->templRow->rand_oben,
             $this->templRow->rand_rechts,
             $this->templRow->rand_unten);
+
+        $this->pdf->setPrintHeader(false);
+        $this->pdf->setPrintFooter(false);
+        $this->pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+        $this->pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+        //Schriften einstellen
+        $this->pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+        $this->pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+
+        $this->pdf->SetFont('pdfahelvetica', '', 10);
+        $this->pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        $l = '';
+        $this->pdf->setLanguageArray($l);
     }
 
     public function getMainTemplate(){
@@ -48,6 +69,17 @@ class PdfDocument {
     public function addPage($htmlContent){
         // add a page
         $this->pdf->AddPage('P','A4');
+
+        //logo placieren
+        if($this->templRow->image_zeigen > 0){
+            $backImgPath=JPATH_COMPONENT.DS.'assets'.DS.'images'.DS.$this->templRow->image_name;
+            $this->pdf->Image($backImgPath,
+                $this->templRow->image_x,
+                $this->templRow->image_y,
+                $this->templRow->image_breite,
+                $this->templRow->image_hoehe, '', '', '', false, 300, '', false, false, 0);
+        }
+
         $this->pdf->writeHTML($htmlContent, true, false, false, false, '');
         $this->pdf->lastPage();
     }
