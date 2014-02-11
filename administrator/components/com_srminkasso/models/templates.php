@@ -18,7 +18,7 @@ jimport('joomla.application.component.modellist');
 class SrmInkassoModelTemplates extends JModelList
 {
 
-	/**
+    /**
 	 * Konstruktor - legt die Filter-Felder fest, die bei Sortierung
 	 * und Suche verwendet werden
 	 */

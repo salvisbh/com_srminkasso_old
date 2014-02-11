@@ -12,6 +12,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
+JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
+
 /**
  * Erweiterung der Basisklasse JModelAdmin
  */
@@ -19,13 +21,13 @@ class SrmInkassoModelBill extends JModelAdmin
 {
   /**
    * Methode getTable überschreiben (JModel), um ein
-   * Objekt für unsere Tabelle `leistungsart` zu instanziieren.
+   * Objekt für unsere Tabelle `bills` zu instanziieren.
    *
-   * @return SrmInkassoTableLeistungsarts
+   * @return SrmInkassoTableBills
    */
   public function getTable($type = 'bills', $prefix = 'SrmInkassoTable', $config = array())
   {
-    return JTable::getInstance($type, $prefix, $config);
+      return SrmInkassoTableBills::getInstance($type,$prefix, $config);
   }
 
   /**

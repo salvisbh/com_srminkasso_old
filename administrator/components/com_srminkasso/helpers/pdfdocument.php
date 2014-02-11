@@ -8,10 +8,9 @@
 
 // no direct access
 defined('_JEXEC') or die('Restricted access');
-//require_once(JPATH_COMPONENT_ADMINISTRATOR.DS."assets".DS."tcpdf".DS.'tcpdf.php');
-//require_once(JPATH_COMPONENT_ADMINISTRATOR . '/assets/tcpdf/config/tcpdf_config.php');
-//Jloader::import('assets.tcpdf.tdpdf',JPATH_COMPONENT);
+
 JLoader::register('TCPDF', JPATH_COMPONENT . '/assets/tcpdf/tcpdf.php');
+JLoader::register('PdfMerger', JPATH_COMPONENT . '/helpers/pdfmerger.php');
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_srminkasso'.DS.'tables');
 
 class PdfDocument {
@@ -53,13 +52,34 @@ class PdfDocument {
         $this->pdf->lastPage();
     }
 
-    public function writePdf($file_path, $destination){
+    /**
+     * Schreibt das PDF an die Zieldestination.
+     * @param $file_path der Zielname
+     * @param $destination der Ausgabekanal, default = 'F'
+     * @return bool
+     */
+    public function writePdf($file_path, $destination='F'){
         //Close and output PDF document
         $this->pdf->Output($file_path, $destination);
         return true;
     }
 
-    public function sendPdfToBrowser($file_path){
+    /**
+     * Fuegt mehrere PDF's zu einer Datei zusammen und sendet diese zurueck zum Browser.
+     * @param array $PdfsWithPath
+     * @param $targetFile
+     */
+    public static function sendMultiplePdfToBrowser(array $PdfsWithPath,$targetFile){
+        $merger = new PdfMerger();
+        $merger->concat($PdfsWithPath,$targetFile);
+        PdfDocument::sendPdfToBrowser($targetFile);
+    }
+
+    /**
+     * Sendet eine einzelne Datei vom Server  zurueck zum Browser.
+     * @param $file_path
+     */
+    public static function sendPdfToBrowser($file_path){
         $cont=file_get_contents($file_path);
         $fsize = filesize($file_path);
         $mtype = "application/force-download";
@@ -73,7 +93,7 @@ class PdfDocument {
         header("Cache-Control: public");
         header("Content-Description: File Transfer");
         header("Content-Type: $mtype");
-        header("Content-Disposition: attachment; filename=\"myfile.pdf\"");
+        header("Content-Disposition: attachment; filename=\"pdfFromServer.pdf\"");
         echo $cont;
         header("Content-Transfer-Encoding: binary");
         header("Content-Length: " . $fsize);
@@ -88,11 +108,11 @@ class PdfDocument {
         foreach($paramArray as $op_vals=>$value)
         {
             if ($value) {
-                $template = preg_replace('#{if:\!' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '', $template);
-                $template = preg_replace('#{if:' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '\1', $template);
+                $contentToReplace = preg_replace('#{if:\!' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '', $contentToReplace);
+                $contentToReplace = preg_replace('#{if:' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '\1', $contentToReplace);
             } else {
-                $template = preg_replace('#{if:\!' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '\1', $template);
-                $template = preg_replace('#{if:' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '', $template);
+                $contentToReplace = preg_replace('#{if:\!' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '\1', $contentToReplace);
+                $contentToReplace = preg_replace('#{if:' . preg_quote($op_vals, '#') . '}(.*?){/if}#s', '', $contentToReplace);
             }
 
             $find = "{".$op_vals."}";

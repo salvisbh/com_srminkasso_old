@@ -11,17 +11,17 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
+JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 
 /**
  * Erweiterung der Klasse JModelList, abgeleitet von JModel
  */
 class SrmInkassoModelPositions extends JModelList
 {
-
     //Das Model einer einzelnen Position
     private $positionRow;
 
-	/**
+    /**
 	 * Konstruktor - legt die Filter-Felder fest, die bei Sortierung
 	 * und Suche verwendet werden
 	 */
@@ -32,13 +32,13 @@ class SrmInkassoModelPositions extends JModelList
 					'person', 'leistung','fakturadatum'
 			);
 		}
-	
+
 		parent::__construct($config);
 
         // Set the model
-        $this->positionRow =& Jtable::getInstance('positions','SrmInkassoTable');
+        $this->positionRow =& SrmInkassoTablePositions::getInstance();
 	}
-	
+
 	public function getActivities()
 	{
 		/* Referenz auf das Datenbankobjekt */
@@ -184,44 +184,4 @@ class SrmInkassoModelPositions extends JModelList
     return $query;
   }
 
-    /**
-     * Gibt die Liste der UserIDs der Positionen fuer einen Rechnungslauf zurueck.
-     * @param $billId
-     */
-    public function getUserIdsForBill($billId){
-
-        /* Referenz auf das Datenbankobjekt */
-        $db	= $this->getDbo();
-
-        /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
-        $query	= $db->getQuery(true);
-
-        /* Select-Abfrage in der Standardform aufbauen */
-        $query->select('fk_userid')->from($this->positionRow->getTableName());
-        $query->where('fk_faktura=' .(int)$billId);
-        $query->group('fk_userid');
-        $db->setQuery($query);
-        $userIds = $db->loadObjectList();
-
-        return $userIds;
-    }
-
-    public function getPositionsForUserBill($userid,$billId){
-
-        $db	= $this->getDbo();
-        $query	= $db->getQuery(true);
-
-        $query->select('p.individual_preis')->from($this->positionRow->getTableName() .' p');
-        $query->select('l.datum,l.titel,l.beschreibung,l.preis');
-        $query->join('LEFT', '#__srmink_leistungen AS l ON p.fk_leistung = l.id');
-
-        $query->where('p.fk_userid=' . (int)$userid, 'AND');
-        $query->where('p.fk_faktura=' .(int)$billId);
-
-        $db->setQuery($query);
-        $positions = $db->loadObjectList();
-
-        return $positions;
-
-    }
 }

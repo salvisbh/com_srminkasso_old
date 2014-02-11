@@ -12,6 +12,8 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
+JLoader::register('SrmInkassoTableUserfakturas', JPATH_COMPONENT . '/tables/userfakturas.php');
+
 /**
  * Erweiterung der Basisklasse JModelAdmin
  */
@@ -21,11 +23,11 @@ class SrmInkassoModelUserfaktura extends JModelAdmin
    * Methode getTable überschreiben (JModel), um ein
    * Objekt für unsere Tabelle `leistungsart` zu instanziieren.
    *
-   * @return SrmInkassoTableLeistungsarts
+   * @return SrmInkassoTableUserfakturas
    */
   public function getTable($type = 'userfakturas', $prefix = 'SrmInkassoTable', $config = array())
   {
-    return JTable::getInstance($type, $prefix, $config);
+      return SrmInkassoTableUserfakturas::getInstance($type,$prefix,$config);
   }
 
   /**
@@ -47,50 +49,6 @@ class SrmInkassoModelUserfaktura extends JModelAdmin
 
     return $form;
   }
-
-    public function getOrCreateUserFakturaForBill($userid,$billId){
-
-        //reccord holen
-        $userfaktura = $this->getUserFakturaForBill($userid,$billId);
-
-        //Null, neu anlegen...
-        if($userfaktura == null){
-
-            $db	= $this->getDbo();
-            $obj = new stdClass();
-            $obj->fk_userid=$userid;
-            $obj->fk_faktura=$billId;
-            $result = $db->insertObject($this->getTable()->getTableName(),$obj);
-
-            //...und nochmals laden
-            $userfaktura = $this->getUserFakturaForBill($userid,$billId);
-        }
-
-        return $userfaktura;
-
-    }
-
-    public function getUserFakturaForBill($userid,$billId){
-
-        $db	= $this->getDbo();
-        $query	= $db->getQuery(true);
-        $query->select('*')->from($this->getTable()->getTableName());
-
-        $query->where('fk_userid=' . (int)$userid, 'AND');
-        $query->where('fk_faktura=' .(int)$billId);
-
-        $db->setQuery($query);
-        $userfaktura = $db->loadObject();
-
-        return $userfaktura;
-
-    }
-
-    public function updateUserFakturaForBill($fakturaItem){
-        $db	= $this->getDbo();
-        $result = $db->updateObject($this->getTable()->getTableName(),$fakturaItem,$this->getTable()->getKeyName());
-        return $result;
-    }
 
   /**
    * Ermittelt die Daten für das Formular aus einem vorherigen
