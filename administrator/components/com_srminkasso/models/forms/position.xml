@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <form>
-	<fieldset>
+	<fieldset name="Leistungsposition">
 		<field
 			name="id"
 			type="text"
@@ -36,8 +36,15 @@
 			value_field="titel">
 			
 			<option value="0">Nicht zugewiesen</option>
-		
+
 		</field>
+
+        <field name="kommentar"
+               type="textarea"
+               label="Kommentar" description="Individueller Kommentar für Empfänger"
+               rows="10"
+               cols="5"
+               filter="raw" />
 			
 	</fieldset>
 </form>

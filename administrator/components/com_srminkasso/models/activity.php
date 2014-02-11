@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
+JLoader::register('SrmInkassoTableActivities', JPATH_COMPONENT . '/tables/activities.php');
 
 /**
  * Erweiterung der Basisklasse JModelAdmin
@@ -25,7 +26,7 @@ class SrmInkassoModelActivity extends JModelAdmin
    */
   public function getTable($type = 'activities', $prefix = 'SrmInkassoTable', $config = array())
   {
-    return JTable::getInstance($type, $prefix, $config);
+      return SrmInkassoTableActivities::getInstance($type,$prefix,$config);
   }
 
   /**

@@ -11,6 +11,8 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
+JLoader::register('SrmInkassoTableActivities', JPATH_COMPONENT . '/tables/activities.php');
+JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 
 /**
  * Erweiterung der Basisklasse JModelAdmin
@@ -77,11 +79,14 @@ class SrmInkassoModelPositionimport extends JModelAdmin
   public function save($data)
   {
 
-  	//TODO: Hier erstellen
   	$this->_fk_leistung = $data['fk_leistung'];
   	$this->_usergroup = $data['usergroup'];	
- 
-  	$db	= $this->getDbo();
+
+      //Preis der Aktivitaet lesen
+      $tblActivities = SrmInkassoTableActivities::getInstance();
+      $tblActivities->load($this->_fk_leistung);
+
+  	   $db	= $this->getDbo();
   	
   	/* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
   	$query	= $db->getQuery(true);
@@ -90,12 +95,14 @@ class SrmInkassoModelPositionimport extends JModelAdmin
   	$db->setQuery($query);
   	$usergroups = $db->loadObjectList();
 
-  	$pos = new stdClass();
-  	foreach ( $usergroups as $ug ) {
-  		
-  		$pos->fk_userid = $ug->user_id;
-  		$pos->fk_leistung = $this->_fk_leistung;
-  		$result = $db->insertObject('#__srmink_positionen', $pos);
+      $tblNamePos = SrmInkassoTablePositions::getInstance()->getTableName();
+      $pos = new stdClass();
+
+      foreach ( $usergroups as $ug ) {
+        $pos->fk_userid = $ug->user_id;
+        $pos->fk_leistung = $this->_fk_leistung;
+        $pos->individual_preis = $tblActivities->preis;
+        $result = $db->insertObject($tblNamePos, $pos);
   	}
   	
   	

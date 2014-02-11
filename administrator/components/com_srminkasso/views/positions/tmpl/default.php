@@ -64,9 +64,9 @@ $activities = $this->activities;
 					<?php echo JHTML::_('select.options', $activities, 'id', 'titel', $this->state->get('filter.activity_id'));?>
 				</select>
 			</th>
-			
-			<th><?php echo JHtml::_('grid.sort', 'Preis', 'preis', $listDirn, $listOrder); ?></th>
-			<th><?php echo JHtml::_('grid.sort', 'Sonderpreis', 'individual_preis', $listDirn, $listOrder); ?></th>
+
+            <th><?php echo JHtml::_('grid.sort', 'Leistungspreis', 'preis', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHtml::_('grid.sort', 'Preis', 'individual_preis', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Faktura (F)', 'rechnung', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Datum', 'fakturadatum', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Status', 'status', $listDirn, $listOrder); ?></th>
@@ -75,7 +75,7 @@ $activities = $this->activities;
 		</thead>
 		<tfoot>
 		<tr>
-			<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="13"><?php echo $this->pagination->getListFooter(); ?></td>
 		</tr>
 		</tfoot>
 		<tbody>
@@ -93,8 +93,8 @@ $activities = $this->activities;
 			<td><?php echo $this->escape($item->strasse); ?></td>
 			<td><?php echo $this->escape($item->ort); ?></td>
 			<td><?php echo $this->escape($item->leistung); ?></td>
-			<td><?php echo $this->escape($item->preis); ?></td>
-			<td><?php echo $item->individual_preis > 0 ? $this->escape($item->individual_preis) : "&nbsp;"; ?></td>
+            <td><?php echo $this->escape($item->preis); ?></td>
+			<td><?php echo $this->escape($item->individual_preis); ?></td>
 			<td><?php echo $this->escape($item->rechnung); ?></td>
 			<td><?php echo $this->escape($item->fakturadatum); ?></td>
 			<td><?php echo $this->escape($item->status); ?></td>

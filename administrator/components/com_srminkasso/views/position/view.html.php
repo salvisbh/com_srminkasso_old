@@ -42,8 +42,12 @@ class SrmInkassoViewPosition extends JView
 		/* Aufruf der Funktion für die Toolbar*/
 		$this->addToolbar();
 
-		/* Ausgabe des View-Templates delegieren an die Elternklasse */
-		parent::display($tpl);
+        /* fuehrt zum Laden von edit_fullpage.php im zusaeztlichen Templatepath */
+        parent::addTemplatePath($this->_basePath . '/views/srminkasso');
+        parent::display('fullpage');
+
+//		/* Ausgabe des View-Templates delegieren an die Elternklasse */
+//		parent::display($tpl);
 	}
 
 	/**

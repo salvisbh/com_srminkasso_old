@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 */
 class SrmInkassoTableActivities extends JTable
 {
+    /**
+     * Gibt eine Instanz eines Tabellenobjekts zurueck.
+     * @return SrmInkassoTableActivities
+     */
+    public static function getInstance($type='activities', $prefix='SrmInkassoTable', $config=array() ){
+        return Jtable::getInstance($type,$prefix,$config);
+    }
+
 	/**
 	* @var int $id Primärschlüssel
 	*/

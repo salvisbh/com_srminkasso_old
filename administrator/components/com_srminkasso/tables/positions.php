@@ -45,7 +45,9 @@ class SrmInkassoTablePositions extends JTable
 	public $individual_preis;
 	
 	public $fk_faktura;
-	
+
+    public $kommentar;
+
 	/**
 	* Konstruktor setzt Tabellenname, Primärschlüssel und das
 	* übergebene Datenbankobjekt.

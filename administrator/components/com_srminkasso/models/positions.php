@@ -12,6 +12,7 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
+JLoader::register('SrmInkassoTableActivities', JPATH_COMPONENT . '/tables/activities.php');
 
 /**
  * Erweiterung der Klasse JModelList, abgeleitet von JModel
@@ -48,7 +49,7 @@ class SrmInkassoModelPositions extends JModelList
 		$query	= $db->getQuery(true);
 	
 		/* Select-Abfrage in der Standardform aufbauen */
-		$query->select('id, titel')->from($this->positionRow->getTableName());
+		$query->select('id, titel')->from(SrmInkassoTableActivities::getInstance()->getTableName());
 	
 		//TODO: nur fakturierungen von nicht archivierten Leistungen
 // 		$query->where('fk_fakturierung is null');
@@ -76,8 +77,7 @@ class SrmInkassoModelPositions extends JModelList
 		
 		$db->setQuery($query);
 		$bills = $db->loadObjectList();
-		// 		$bills = $db->loadAssocList();
-		
+
 		return $bills;
 	}
 	
