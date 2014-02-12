@@ -18,49 +18,74 @@ JLoader::register('SrmInkassoTableUserfakturas', JPATH_COMPONENT . '/tables/user
 
 class UserFakturaHelper {
 
-    public function createUserFaktura($billId, $userId, SrmInkassoTableBills $tblBill = null,SrmInkassoTablePositions $tplPositionen = null){
-
-        //billItem laden, falls nur mit billid und userid aufgerufen
-        if(is_null($tblBill)){
-            $tblBill = SrmInkassoTableBills::getInstance()->load($billId);
-        }
-
-        if(is_null($tplPositionen)){
-            $tplPositionen = SrmInkassoTablePositions::getInstance();
-        }
+    /**
+     * Erstellt zu einem Empfaenger und einem Fakturalauf eine Rechnung und gibt deren HTML-Text zurueck.
+     * @param $tblBill die Tabelle mit den Rechnungsdaten, positioniert auf dem aktuellen Rechnungslauf.
+     * @param $userId die UserId des Empfaengers.
+     * @param SrmInkassoTablePositions $tblPositionen das Table-objekt mit den Daten der Rechnungspositionen, noch nicht geladen.
+     * @param PdfDocument $pdfDoc das PdfDocument, welchem eine Seite angehaengt werden soll.
+     * @return int, Rechnungsnummer, falls die Rechnung erfolgreich angehaengt werden konnte, sonst 0.
+     */
+    public function appendUserFaktura(SrmInkassoTableBills $tblBill,$userId,SrmInkassoTablePositions $tblPositionen,PdfDocument $pdfDoc){
 
         //Rechnungsreccord holen
         $tblUserFaktura = SrmInkassoTableUserfakturas::getInstance();
-        $tblUserFaktura->createOrLoadUserFakturaForBill($userId,$billId);
-
-        //pdf-klasse erstellen
-        $pdfDoc = new PdfDocument($tblBill->fk_template);
+        $tblUserFaktura->createOrLoadUserFakturaForBill($userId, $tblBill->id);
 
         //Variablen, welche in Methode ueberschrieben werden
         $total = 0;     //Gesamtbetrag
         $posHtml = '';  //HTML-Text der Positionszeilen
 
-        //Positionen fuellen
-        $this->fillPositionTemplate($billId, $userId, $tplPositionen, $pdfDoc, $total, $posHtml);
+        //Positionen fuellen, $total und $posHtml werden per Referenz abgefuellt.
+        $this->fillPositionTemplate($tblBill->id, $userId, $tblPositionen, $pdfDoc, $total, $posHtml);
 
         //Body erstellen...
         $htmlContent = $this->getFakturyBody($userId,$tblBill, $pdfDoc, $tblUserFaktura, $posHtml, $total);
 
-        //...und PDF-Seite erstellen
+        //...und PDF-Seite anhaengen
         $pdfDoc->addPage($htmlContent);
 
+        //userfaktura aktualisieren
+        $tblUserFaktura->totalbetrag=$total;
+        $tblUserFaktura->updateUserFakturaForBill($tblUserFaktura);
+
+        return $tblUserFaktura->id;        //todo Fehler pruefen und im Fehlerfall 0 zurueckgeben.
+    }
+
+    /**
+     * Erstellt zu einem Empfaenger und einem Fakturalauf eine Rechnung, speichert diese ab und gibt den Pfad der erstellten PDF-Datei zurueck.
+     * @param $billId die ID des Fakturierungslaufes
+     * @param $userId die UserId des Empfaengers
+     * @param SrmInkassoTableBills $tblBill das Table-Objekt mit den Daten zum Rechnungslauf. Falls null, wird instanziert und geladen.
+     * @param SrmInkassoTablePositions $tblPositionen das Table-objekt mit den Daten der Rechnungspositionen, noch nicht geladen.
+     * @return string der absolute Dateinamen mit Pfad der generierten PDF-Datei.
+     */
+    public function createUserFaktura($billId, $userId, SrmInkassoTableBills $tblBill = null,SrmInkassoTablePositions $tblPositionen = null){
+
+        //billItem laden, falls nur mit billid und userid aufgerufen
+        if(is_null($tblBill)){
+            $tblBill = SrmInkassoTableBills::getInstance();
+            $tblBill->load($billId);
+        }
+
+        if(is_null($tblPositionen)){
+            $tblPositionen = SrmInkassoTablePositions::getInstance();
+        }
+
+        //pdf-klasse erstellen
+        $pdfDoc = new PdfDocument($tblBill->fk_template);
+
+        $userFaktId = $this->appendUserFaktura($tblBill,$userId,$tblPositionen,$pdfDoc);
+
+
         //pdf schreiben
-        $fileName = 'bill_' . $tblUserFaktura->fk_faktura . '_' . $tblUserFaktura->id . '.pdf';
+        $fileName = 'bill_' . $billId . '_' . $userFaktId . '.pdf';
         $fileNameWithPath = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'files'.DS.'pdf'.DS.$fileName;
         $pdfDoc->writePdf($fileNameWithPath,'F');
 
-        //userfaktura aktualisieren
-        $tblUserFaktura->totalbetrag=3.60;
-        $tblUserFaktura->pdfname=$fileName;
-        $tblUserFaktura->updateUserFakturaForBill($tblUserFaktura);
-
         return $fileNameWithPath;   //Voller Pfad fuer Merge zurueckgeben
     }
+
 
     /**
      * @param $billId

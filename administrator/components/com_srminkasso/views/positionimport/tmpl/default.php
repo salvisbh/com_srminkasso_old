@@ -28,6 +28,10 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getLabel('usergroup'); ?>
 				<?php echo $this->form->getInput('usergroup'); ?>
 			</li>
+            <li>
+                <?php echo $this->form->getLabel('trainingsgruppe'); ?>
+                <?php echo $this->form->getInput('trainingsgruppe'); ?>
+            </li>
 			<li>
 				<?php echo $this->form->getLabel('fk_leistung'); ?>
 				<?php echo $this->form->getInput('fk_leistung'); ?>

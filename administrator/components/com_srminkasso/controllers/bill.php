@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controllerform');
 
 JLoader::register('PdfDocument', JPATH_COMPONENT . '/helpers/pdfdocument.php');
-JLoader::register('PdfMerger', JPATH_COMPONENT . '/helpers/pdfmerger.php');
 JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
 JLoader::register('UserFakturaHelper', JPATH_COMPONENT . '/helpers/userfakturahelper.php');
@@ -53,10 +52,10 @@ class SrmInkassoControllerBill extends JControllerForm
         $billId =  $jinput->getInt('id',0);
 
         //Tabelle fuer Positionszugriff
-        $positionsTable = SrmInkassoTablePositions::getInstance();
+        $tblPositions = SrmInkassoTablePositions::getInstance();
 
         //user holen, um zu schauen, ob es ueberhaupt Rechnungen zu generieren gibt
-        $billableUserIds = $positionsTable->getUserIdsForBill($billId);
+        $billableUserIds = $tblPositions->getUserIdsForBill($billId);
 
         if(count($billableUserIds) == 0){
             $message = JText::sprintf('Für diesen Rechnungslauf bestehen keine Positionen.');
@@ -65,23 +64,24 @@ class SrmInkassoControllerBill extends JControllerForm
         }
 
         //BillItem laden
-        $billTable = SrmInkassoTableBills::getInstance();
-        $billTable->load($billId);
+        $tblBill = SrmInkassoTableBills::getInstance();
+        $tblBill->load($billId);
 
-        //Array mit pdfnamen
-        $pdfsWithPath = array();
+        //pdf-klasse erstellen
+        $pdfDoc = new PdfDocument($tblBill->fk_template);
         $ufHelper = new UserFakturaHelper();
 
         //Fuer jeden Nutzer Rechnung erstellen
         foreach ( $billableUserIds as $userId ) {
+
             $fk_userid = $userId->fk_userid;
-            $pdfNameWithPath = $ufHelper->createUserFaktura($billId, $fk_userid, $billTable,$positionsTable);
-            array_push($pdfsWithPath,$pdfNameWithPath);
+            $usrFaktId = $ufHelper->appendUserFaktura($tblBill,$fk_userid,$tblPositions,$pdfDoc);
         }
 
         //PDF's mergen und an Browser senden
         $pdfNameWithPath = $fileNameWithPath = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'files'.DS.'pdf'.DS.'Bills_' . $billId .'.pdf';
-        PdfDocument::sendMultiplePdfToBrowser($pdfsWithPath,$pdfNameWithPath);
+        $pdfDoc->writePdf($pdfNameWithPath,'F');
+        PdfDocument::sendPdfToBrowser($pdfNameWithPath);
     }
 
 }

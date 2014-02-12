@@ -126,7 +126,7 @@
                    type="editor"
                    width="500"
                    rows="2"
-                   filter="safehtml" />
+                   filter="raw" />
 	
 		</fieldset>
 <!-- 	</fields> -->

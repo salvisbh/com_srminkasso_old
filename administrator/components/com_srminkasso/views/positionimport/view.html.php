@@ -44,7 +44,6 @@ class SrmInkassoViewPositionimport extends JView
 		$this->addToolbar();
 
 		/* Ausgabe des View-Templates delegieren an die Elternklasse */
-// 		parent::display($tpl);
 		parent::display($tpl);
 	}
 

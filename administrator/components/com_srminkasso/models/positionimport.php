@@ -21,7 +21,20 @@ class SrmInkassoModelPositionimport extends JModelAdmin
 {
 	var $_fk_leistung;
 	var $_usergroup;
-	
+    var $_trainingsgruppe;
+
+    /* @var $tblActivities SrmInkassoTableActivities */
+    private $tblActivities;
+
+    private $tblNamePos;
+
+    public function __construct($config = array()){
+        parent::__construct($config);
+
+        $this->tblActivities = SrmInkassoTableActivities::getInstance();
+        $this->tblNamePos = SrmInkassoTablePositions::getInstance()->getTableName();
+    }
+
   /**
    * Methode getTable überschreiben (JModel), um ein
    * Objekt für unsere Tabelle `leistungsart` zu instanziieren.
@@ -80,37 +93,81 @@ class SrmInkassoModelPositionimport extends JModelAdmin
   {
 
   	$this->_fk_leistung = $data['fk_leistung'];
-  	$this->_usergroup = $data['usergroup'];	
+  	$this->_usergroup = $data['usergroup'];
+    $this->_trainingsgruppe = $data['trainingsgruppe'];
+
+    $usergroup = intval($this->_usergroup);
 
       //Preis der Aktivitaet lesen
-      $tblActivities = SrmInkassoTableActivities::getInstance();
-      $tblActivities->load($this->_fk_leistung);
+      $this->tblActivities->load($this->_fk_leistung);
 
-  	   $db	= $this->getDbo();
-  	
-  	/* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
-  	$query	= $db->getQuery(true);
-  	$query->select('*')->from('#__user_usergroup_map'); 
-  	$query->where('group_id = ' .$this->_usergroup);
-  	$db->setQuery($query);
-  	$usergroups = $db->loadObjectList();
+      if($usergroup > 0){
+          $this->assignUserGroup($usergroup);
+      }elseif($this->_trainingsgruppe != ''){
+          $this->assignTrainingsgruppe($this->_trainingsgruppe);
+      }else{
+          //nicht machen
+      }
 
-      $tblNamePos = SrmInkassoTablePositions::getInstance()->getTableName();
-      $pos = new stdClass();
-
-      foreach ( $usergroups as $ug ) {
-        $pos->fk_userid = $ug->user_id;
-        $pos->fk_leistung = $this->_fk_leistung;
-        $pos->individual_preis = $tblActivities->preis;
-        $result = $db->insertObject($tblNamePos, $pos);
-  	}
-  	
   	
   	// Clean the cache.
 	$this->cleanCache();
    
   	return true;
   }
-  
+
+    private function assignUserGroup($uGrpId){
+
+        $db	= $this->getDbo();
+
+        /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
+        $query	= $db->getQuery(true);
+        $query->select('ug.user_id')->from('#__user_usergroup_map ug');
+        $query->join('LEFT','#__users as u ON ug.user_id = u.id');
+        $query->where('ug.group_id = ' .(int)$this->_usergroup,'AND');
+        $query->where('u.block=0');
+        $db->setQuery($query);
+        $usergroups = $db->loadObjectList();
+
+        foreach ( $usergroups as $ug ) {
+
+            $result = $this->addPosition($ug->user_id,
+                        $this->_fk_leistung,
+                        $this->tblActivities->preis);
+        }
+
+    }
+
+    private function assignTrainingsgruppe($tg){
+
+        $db	= $this->getDbo();
+
+        /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
+        $query	= $db->getQuery(true);
+        $query->select('cb.user_id')->from('#__comprofiler cb');
+        $query->join('LEFT','#__users as u ON cb.user_id = u.id');
+        $query->where('cb.cb_trainingsgruppe = \'' .$tg  . '\'','AND');
+        $query->where('u.block=0');
+        $db->setQuery($query);
+        $users = $db->loadObjectList();
+
+        foreach ( $users as $user ) {
+
+            $result = $this->addPosition($user->user_id,
+                $this->_fk_leistung,
+                $this->tblActivities->preis);
+        }
+
+    }
+
+    private function addPosition($userId,$fk_leistung,$preis){
+        $pos = new stdClass();
+        $pos->fk_userid = $userId;
+        $pos->fk_leistung = $fk_leistung;
+        $pos->individual_preis = $preis;
+        $result = $this->getDbo()->insertObject($this->tblNamePos, $pos);
+
+        return $result;
+    }
 }
 

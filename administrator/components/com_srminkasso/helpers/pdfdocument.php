@@ -10,7 +10,6 @@
 defined('_JEXEC') or die('Restricted access');
 
 JLoader::register('TCPDF', JPATH_COMPONENT . '/assets/tcpdf/tcpdf.php');
-JLoader::register('PdfMerger', JPATH_COMPONENT . '/helpers/pdfmerger.php');
 JLoader::register('SrmInkassoTableTemplates', JPATH_COMPONENT . '/tables/templates.php');
 JTable::addIncludePath(JPATH_ADMINISTRATOR.DS.'components'.DS.'com_srminkasso'.DS.'tables');
 
@@ -94,17 +93,6 @@ class PdfDocument {
         //Close and output PDF document
         $this->pdf->Output($file_path, $destination);
         return true;
-    }
-
-    /**
-     * Fuegt mehrere PDF's zu einer Datei zusammen und sendet diese zurueck zum Browser.
-     * @param array $PdfsWithPath
-     * @param $targetFile
-     */
-    public static function sendMultiplePdfToBrowser(array $PdfsWithPath,$targetFile){
-        $merger = new PdfMerger();
-        $merger->concat($PdfsWithPath,$targetFile);
-        PdfDocument::sendPdfToBrowser($targetFile);
     }
 
     /**

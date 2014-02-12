@@ -7,8 +7,25 @@
 			type="usergroup"
 	        label="Benutzergruppe"
 	        description="Benutzergruppe zum Generieren von Leistungspositionen"
-	        default="0" />
-        
+	        default="0">
+
+            <option value="0">- alle -</option>
+
+        </field>
+
+        <field
+                name="trainingsgruppe"
+                type="sql"
+                label="Trainingsgruppe"
+                required="false"
+                query="select cb.cb_trainingsgruppe name, concat(cb.cb_trainingsgruppe, ' (', count(u.id),')') titel from #__users as u left join #__comprofiler as cb on u.id = cb.user_id where u.block = 0 and NULLIF(cb.cb_trainingsgruppe, '') IS NOT NULL group by cb.cb_trainingsgruppe order by cb.cb_trainingsgruppe;"
+                key_field="name"
+                value_field="titel">
+
+            <option value="">- alle -</option>
+
+        </field>
+
 		<field 
 			name="fk_leistung" 
 			type="sql" 

@@ -52,8 +52,6 @@ class SrmInkassoTableUserfakturas extends JTable
 	
 	public $status;
 
-    public $pdfname;
-
 	/**
 	* Konstruktor setzt Tabellenname, Primärschlüssel und das
 	* übergebene Datenbankobjekt.
