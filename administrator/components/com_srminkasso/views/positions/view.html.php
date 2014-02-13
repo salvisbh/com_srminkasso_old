@@ -47,7 +47,7 @@ class SrmInkassoViewPositions extends JView
 	 * Rechnungen fuer Filterung der Liste und fuer Batch-Operationen.
 	 * @var unknown
 	 */
-	protected $bills;
+	protected $billruns;
 	
 	/**
 	 * Überschreiben der Methode display
@@ -74,7 +74,7 @@ class SrmInkassoViewPositions extends JView
 		/* Activities fuer Filter holen, ruft getActivities im Model */
 		$this->activities = $this->get("activities");
 		
-		$this->bills = $this->get("bills");
+		$this->billruns = $this->get("billruns");
 		
 		/* Aufnbau der Toolbar */
 		$this->addToolbar();

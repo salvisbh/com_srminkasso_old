@@ -19,7 +19,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_srminkasso&id=' . (int)$this->item->id); ?>"
-      method="post" name="adminForm" id="bill-form" class="form-validate">
+      method="post" name="adminForm" id="billrun-form" class="form-validate">
 
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('Rechnungslauf'); ?></legend>

@@ -12,22 +12,22 @@
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modeladmin');
 
-JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
+JLoader::register('SrmInkassoTableBillRuns', JPATH_COMPONENT . '/tables/billruns.php');
 
 /**
  * Erweiterung der Basisklasse JModelAdmin
  */
-class SrmInkassoModelBill extends JModelAdmin
+class SrmInkassoModelBillRun extends JModelAdmin
 {
   /**
    * Methode getTable überschreiben (JModel), um ein
-   * Objekt für unsere Tabelle `bills` zu instanziieren.
+   * Objekt für unsere Tabelle `billruns` zu instanziieren.
    *
-   * @return SrmInkassoTableBills
+   * @return SrmInkassoTableBillRuns
    */
-  public function getTable($type = 'bills', $prefix = 'SrmInkassoTable', $config = array())
+  public function getTable($type = 'billruns', $prefix = 'SrmInkassoTable', $config = array())
   {
-      return SrmInkassoTableBills::getInstance($type,$prefix, $config);
+      return SrmInkassoTableBillRuns::getInstance($type,$prefix, $config);
   }
 
   /**
@@ -42,7 +42,7 @@ class SrmInkassoModelBill extends JModelAdmin
   {
   	// Angaben zu den HTML-Elementen
     $options = array('control' => 'jform', 'load_data' => $loadData);
-    $form    = $this->loadForm('srminkasso', 'bill', $options);
+    $form    = $this->loadForm('srminkasso', 'billrun', $options);
     if (empty($form)) {
       return false;
     }
@@ -61,7 +61,7 @@ class SrmInkassoModelBill extends JModelAdmin
   {
     /* Daten aus dem Sitzungsspeicher holen sofern vorhanden */
     $app  = JFactory::getApplication();
-    $data = $app->getUserState('com_srminkasso.edit.bill.data', array());
+    $data = $app->getUserState('com_srminkasso.edit.billrun.data', array());
 
     /* ggf. Datensatz aus der Tabelle einlesen */
     if (empty($data)) {

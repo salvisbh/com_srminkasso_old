@@ -62,7 +62,7 @@ class SrmInkassoModelPositions extends JModelList
 	
 	}
 	
-	public function getBills()
+	public function getBillruns()
 	{
 		/* Referenz auf das Datenbankobjekt */
 		$db	= $this->getDbo();

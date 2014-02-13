@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
 /**
  * Erweiterung der Basisklasse JView
  */
-class SrmInkassoViewBills extends JView
+class SrmInkassoViewBillRuns extends JView
 {
 	/**
 	 * Die Tabellenzeilen fuer den mittleren Teil der View
@@ -72,13 +72,13 @@ class SrmInkassoViewBills extends JView
 		JToolBarHelper::title(JText::_('Fakturierungen'));
 
 		/* Button addNew;  Ein Datensatz, daher Controller leistungsart, task add */
-		JToolBarHelper::addNew('bill.add', 'JTOOLBAR_NEW');
+		JToolBarHelper::addNew('billrun.add', 'JTOOLBAR_NEW');
 
 		/* Button editList;  Ein Datensatz, daher Controller leistungsart, task edit */
-		JToolBarHelper::editList('bill.edit', 'JTOOLBAR_EDIT');
+		JToolBarHelper::editList('billrun.edit', 'JTOOLBAR_EDIT');
 
 		/* Button delete, kann sich auf mehrere Datensaetze beziehen, daher leistungsarten */
-		JToolBarHelper::deleteList('Fakturierungen loeschen?', 'bills.delete', 'JTOOLBAR_DELETE');
+		JToolBarHelper::deleteList('Fakturierungen loeschen?', 'billruns.delete', 'JTOOLBAR_DELETE');
 	}
 
 }

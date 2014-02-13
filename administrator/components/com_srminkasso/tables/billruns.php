@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 /**
 * Erweiterung der Klasse JTable
 */
-class SrmInkassoTableBills extends JTable
+class SrmInkassoTableBillRuns extends JTable
 {
     /**
      * Gibt eine Instanz eines Tabellenobjekts zurueck.
-     * @return SrmInkassoTableBills
+     * @return SrmInkassoTableBillRuns
      */
-    public static function getInstance($type='bills', $prefix='SrmInkassoTable', $config=array() ){
+    public static function getInstance($type='billruns', $prefix='SrmInkassoTable', $config=array() ){
         return Jtable::getInstance($type,$prefix,$config);
     }
 

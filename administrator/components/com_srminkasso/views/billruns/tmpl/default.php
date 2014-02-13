@@ -24,7 +24,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_srminkasso&view=bills'); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_srminkasso&view=billruns'); ?>"
       method="post" name="adminForm" id="adminForm">
       <fieldset id="filter-bar">
 		<div class="filter-search fltlft">
@@ -68,13 +68,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<td class="center"><?php echo JHtml::_('grid.id', $i, $item->id); ?></td>
 			<td><?php
 				/* Link zum Formular */
-				$mylink = JRoute::_("index.php?option=com_srminkasso&task=bill.edit&id=" . $item->id);
+				$mylink = JRoute::_("index.php?option=com_srminkasso&task=billrun.edit&id=" . $item->id);
 				echo '<a href="' . $mylink . '">' . $this->escape($item->titel) . '</a>';
 				?>
 			</td>
 			<td><?php echo $this->escape($item->sum_ind); ?></td>
             <td align="center">
-                <a href='index.php?option=com_srminkasso&task=bill.exportPdf&id=<?php print $item->id?>'>
+                <a href='index.php?option=com_srminkasso&task=billrun.exportPdf&id=<?php print $item->id?>'>
                     <img src='components/com_srminkasso/assets/images/icon-16-print.png'
                          alt="Rechnungen als PDF exportieren"></a>
             </td>

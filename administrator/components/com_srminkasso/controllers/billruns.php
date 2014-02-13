@@ -15,7 +15,7 @@ jimport('joomla.application.component.controlleradmin');
 /**
  * Erweiterung der Klasse JControllerForm
  */
-class SrmInkassoControllerBills extends JControllerAdmin
+class SrmInkassoControllerBillRuns extends JControllerAdmin
 {
   /**
    * Verbindung zu MyThingsModelMyThing, damit die dort
@@ -24,7 +24,7 @@ class SrmInkassoControllerBills extends JControllerAdmin
    *
    * @return MyThingsModelMyThings Das Model fuer die Listenansicht
    */
-  public function getModel($name = 'Bill', $prefix = 'SrmInkassoModel', $config = array())
+  public function getModel($name = 'BillRun', $prefix = 'SrmInkassoModel', $config = array())
   {
     // Model nicht automatisch mit Inhalten aus dem Request befuellen
     $config['ignore_request'] = true;

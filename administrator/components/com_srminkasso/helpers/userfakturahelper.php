@@ -13,7 +13,7 @@ JLoader::register('PdfDocument', JPATH_COMPONENT . '/helpers/pdfdocument.php');
 JLoader::register('CbUserHelper', JPATH_COMPONENT . '/helpers/cbuserhelper.php');
 JLoader::register('FormatHelper', JPATH_COMPONENT . '/helpers/formathelper.php');
 JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
-JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
+JLoader::register('SrmInkassoTableBillRuns', JPATH_COMPONENT . '/tables/billruns.php');
 JLoader::register('SrmInkassoTableUserfakturas', JPATH_COMPONENT . '/tables/userfakturas.php');
 
 class UserFakturaHelper {
@@ -26,7 +26,7 @@ class UserFakturaHelper {
      * @param PdfDocument $pdfDoc das PdfDocument, welchem eine Seite angehaengt werden soll.
      * @return int, Rechnungsnummer, falls die Rechnung erfolgreich angehaengt werden konnte, sonst 0.
      */
-    public function appendUserFaktura(SrmInkassoTableBills $tblBill,$userId,SrmInkassoTablePositions $tblPositionen,PdfDocument $pdfDoc){
+    public function appendUserFaktura(SrmInkassoTableBillRuns $tblBill,$userId,SrmInkassoTablePositions $tblPositionen,PdfDocument $pdfDoc){
 
         //Rechnungsreccord holen
         $tblUserFaktura = SrmInkassoTableUserfakturas::getInstance();
@@ -56,15 +56,15 @@ class UserFakturaHelper {
      * Erstellt zu einem Empfaenger und einem Fakturalauf eine Rechnung, speichert diese ab und gibt den Pfad der erstellten PDF-Datei zurueck.
      * @param $billId die ID des Fakturierungslaufes
      * @param $userId die UserId des Empfaengers
-     * @param SrmInkassoTableBills $tblBill das Table-Objekt mit den Daten zum Rechnungslauf. Falls null, wird instanziert und geladen.
+     * @param SrmInkassoTableBillRuns $tblBill das Table-Objekt mit den Daten zum Rechnungslauf. Falls null, wird instanziert und geladen.
      * @param SrmInkassoTablePositions $tblPositionen das Table-objekt mit den Daten der Rechnungspositionen, noch nicht geladen.
      * @return string der absolute Dateinamen mit Pfad der generierten PDF-Datei.
      */
-    public function createUserFaktura($billId, $userId, SrmInkassoTableBills $tblBill = null,SrmInkassoTablePositions $tblPositionen = null){
+    public function createUserFaktura($billId, $userId, SrmInkassoTableBillRuns $tblBill = null,SrmInkassoTablePositions $tblPositionen = null){
 
         //billItem laden, falls nur mit billid und userid aufgerufen
         if(is_null($tblBill)){
-            $tblBill = SrmInkassoTableBills::getInstance();
+            $tblBill = SrmInkassoTableBillRuns::getInstance();
             $tblBill->load($billId);
         }
 
@@ -120,14 +120,14 @@ class UserFakturaHelper {
     }
 
     /**
-     * @param SrmInkassoTableBills $tblBills
+     * @param SrmInkassoTableBillRuns $tblBills
      * @param $pdfDoc
      * @param $tblUserFaktura
      * @param $posHtml
      * @param $total
      * @return mixed
      */
-    private function getFakturyBody($userId,SrmInkassoTableBills $tblBills, $pdfDoc, $tblUserFaktura, $posHtml, $total)
+    private function getFakturyBody($userId,SrmInkassoTableBillRuns $tblBills, $pdfDoc, $tblUserFaktura, $posHtml, $total)
     {
         $bodyTemplate = $pdfDoc->getMainTemplate();
 

@@ -10,7 +10,7 @@
 // no direct access
 defined('_JEXEC') or die;
 
-$bills = $this->bills;
+$billruns = $this->billruns;
 
 // $published = $this->state->get('filter.published');
 ?>
@@ -21,7 +21,7 @@ $bills = $this->bills;
 	<select name="batch[bill_id]" class="inputbox" id="batch-bill-id">
 		<option value=""><?php echo JText::_('- Rechnung wählen -');?></option>
 		<option value="-1"><?php echo JText::_('- Rechnungszuordnung aufheben -');?></option>
-		<?php echo JHTML::_('select.options', $bills, 'id', 'titel');?>
+		<?php echo JHTML::_('select.options', $billruns, 'id', 'titel');?>
 	</select>
 	<button type="submit" onclick="Joomla.submitbutton('position.batch');">
 		<?php echo JText::_('ausführen'); ?>

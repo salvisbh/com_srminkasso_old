@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 
 /* Erweitern der Basisklasse JView */
-class SrmInkassoViewBill extends JView
+class SrmInkassoViewBillRun extends JView
 {
 	/* Der Datensatz, der zu bearbeiten ist */
 	protected $item;
@@ -59,19 +59,19 @@ class SrmInkassoViewBill extends JView
 		}
 
         /* Speichern */
-		JToolBarHelper::apply('bill.apply', 'JTOOLBAR_APPLY');
+		JToolBarHelper::apply('billrun.apply', 'JTOOLBAR_APPLY');
 
 		/* Speichern und Schließen Controller mything */
-		JToolBarHelper::save('bill.save', 'JTOOLBAR_SAVE');
+		JToolBarHelper::save('billrun.save', 'JTOOLBAR_SAVE');
 
 		/* Button speichern und neu. Kein spezielles Icon ausgewählt */
-		JToolBarHelper::save2new('bill.save2new');
+		JToolBarHelper::save2new('billrun.save2new');
 
 		/* Button "als Kopie speichern". Kein spezielles Icon ausgewählt */
-		JToolBarHelper::save2copy('bill.save2copy');
+		JToolBarHelper::save2copy('billrun.save2copy');
 
 		/* Button cancel; Controller mything */
-		JToolBarHelper::cancel('bill.cancel', 'JTOOLBAR_CANCEL');
+		JToolBarHelper::cancel('billrun.cancel', 'JTOOLBAR_CANCEL');
 	}
 
 }

@@ -15,7 +15,7 @@ jimport('joomla.application.component.modellist');
 /**
  * Erweiterung der Klasse JModelList, abgeleitet von JModel
  */
-class SrmInkassoModelBills extends JModelList
+class SrmInkassoModelBillRuns extends JModelList
 {
 
 	/**

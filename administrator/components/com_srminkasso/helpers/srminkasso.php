@@ -36,7 +36,7 @@ class SrmInkassoHelper {
         /* Tab "SrmInkasso" */
         JSubMenuHelper::addEntry(
         	JText::_('Fakturierungen'),
-        	'index.php?option=com_srminkasso&view=bills', $name == 'bills'
+        	'index.php?option=com_srminkasso&view=billruns', $name == 'billruns'
         );
         
         /* Tab "SrmInkasso" */
