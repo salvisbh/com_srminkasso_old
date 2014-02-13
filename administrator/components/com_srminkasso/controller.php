@@ -4,7 +4,7 @@
  *
  * Allgemeiner Controller der Komponente mythings
  *
- * @package    MyThings
+ * @package    MyThings txt
  * @subpackage Backend
  * @author     chmst.de, webmechanic.biz
  * @license    GNU/GPL
