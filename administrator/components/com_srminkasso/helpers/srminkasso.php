@@ -23,22 +23,28 @@ class SrmInkassoHelper {
 
         /* Tab "SrmInkasso" */
         JSubMenuHelper::addEntry(
-            JText::_('Leistungspositionen'),
-            'index.php?option=com_srminkasso&view=positions', $name == 'positions'
-        );
-        
-        /* Tab "SrmInkasso" */
-        JSubMenuHelper::addEntry(
-        	JText::_('Leistungen'),
-        	'index.php?option=com_srminkasso&view=activities', $name == 'activities'
+            JText::_('Leistungen'),
+            'index.php?option=com_srminkasso&view=activities', $name == 'activities'
         );
 
         /* Tab "SrmInkasso" */
         JSubMenuHelper::addEntry(
-        	JText::_('Fakturierungen'),
-        	'index.php?option=com_srminkasso&view=billruns', $name == 'billruns'
+            JText::_('Leistungspositionen'),
+            'index.php?option=com_srminkasso&view=positions', $name == 'positions'
         );
-        
+
+        /* Tab "SrmInkasso" */
+        JSubMenuHelper::addEntry(
+            JText::_('Fakturierungsläufe'),
+            'index.php?option=com_srminkasso&view=billruns', $name == 'billruns'
+        );
+
+        /* Tab "SrmInkasso" */
+        JSubMenuHelper::addEntry(
+            JText::_('Rechnungen'),
+            'index.php?option=com_srminkasso&view=bills', $name == 'bills'
+        );
+
         /* Tab "SrmInkasso" */
         JSubMenuHelper::addEntry(
         	JText::_('Leistungsarten'),
