@@ -11,7 +11,7 @@
 			type="calendar"
         	label="Leistungsdatum"
         	description="Datum der Leistung oder des Anlasses"
-        	required="true"
+        	required="false"
         	size="20" />
 			
 		<field

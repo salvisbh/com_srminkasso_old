@@ -10,6 +10,8 @@
 * @license    GNU/GPL
 */
 defined('_JEXEC') or die;
+JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
+JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 
 /**
 * Erweiterung der Klasse JTable
@@ -67,5 +69,25 @@ class SrmInkassoTableBillRuns extends JTable
 	{
 		parent::__construct('#__srmink_fakturierungen', 'id', $db);
 	}
+
+    /**
+     * Stellt vor dem Loeschen sicher, dass die Referenzen in den Leistungspositionen aufgeloest
+     * und zugehoerige Userfaktura geloescht sind.
+     * @param null $pk
+     * @return bool
+     */
+    public function delete($pk = null)
+    {
+        //userfaktura loeschen
+        $tblBills = SrmInkassoTableBills::getInstance();
+        $tblBills->deleteBillsFromBillRun($pk);
+
+        //Referenzen auf Positionen zuruecksetzen
+        $tblPositions = SrmInkassoTablePositions::getInstance();
+        $tblPositions->removeBillRunReference($pk);
+
+        return parent::delete($pk); //
+    }
+
 
 }

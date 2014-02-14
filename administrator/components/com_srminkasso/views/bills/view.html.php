@@ -17,7 +17,7 @@ jimport('joomla.application.component.view');
 /**
  * Erweiterung der Basisklasse JView
  */
-class SrmInkassoViewBillRuns extends JView
+class SrmInkassoViewBills extends JView
 {
 	/**
 	 * Die Tabellenzeilen fuer den mittleren Teil der View
@@ -44,6 +44,7 @@ class SrmInkassoViewBillRuns extends JView
 	 */
 	function display($tpl = null)
 	{
+				
 		/* JView holt die Daten vom Model */
 
 		/* Die Datensaetze aus der Tabelle mythings */
@@ -69,16 +70,17 @@ class SrmInkassoViewBillRuns extends JView
 	protected function addToolbar()
 	{
 		/* Links oben der Titel */
-		JToolBarHelper::title(JText::_('Fakturierungsläufe'));
+		JToolBarHelper::title(JText::_('Rechnungen'));
 
 		/* Button addNew;  Ein Datensatz, daher Controller leistungsart, task add */
-		JToolBarHelper::addNew('billrun.add', 'JTOOLBAR_NEW');
+//		JToolBarHelper::addNew('activity.add', 'JTOOLBAR_NEW');
 
 		/* Button editList;  Ein Datensatz, daher Controller leistungsart, task edit */
-		JToolBarHelper::editList('billrun.edit', 'JTOOLBAR_EDIT');
+//		JToolBarHelper::editList('bill.edit', 'JTOOLBAR_EDIT');
 
 		/* Button delete, kann sich auf mehrere Datensaetze beziehen, daher leistungsarten */
-		JToolBarHelper::deleteList('Fakturierungsläufe löschen und Referenzen auf Leistungspositionen zurücksetzen?', 'billruns.delete', 'JTOOLBAR_DELETE');
+		JToolBarHelper::deleteList('Rechnung löschen?', 'bills.delete', 'JTOOLBAR_DELETE');
+
 	}
 
 }

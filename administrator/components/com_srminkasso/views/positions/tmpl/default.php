@@ -67,7 +67,7 @@ $activities = $this->activities;
 
             <th><?php echo JHtml::_('grid.sort', 'Leistungspreis', 'preis', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Preis', 'individual_preis', $listDirn, $listOrder); ?></th>
-			<th><?php echo JHtml::_('grid.sort', 'Faktura (F)', 'rechnung', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHtml::_('grid.sort', 'Fakturierungslauf (F)', 'rechnung', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Datum', 'fakturadatum', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Status', 'status', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'ID', 'id', $listDirn, $listOrder); ?></th>

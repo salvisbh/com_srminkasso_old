@@ -54,18 +54,18 @@ class UserFakturaHelper {
 
     /**
      * Erstellt zu einem Empfaenger und einem Fakturalauf eine Rechnung, speichert diese ab und gibt den Pfad der erstellten PDF-Datei zurueck.
-     * @param $billId die ID des Fakturierungslaufes
+     * @param $billRunId die ID des Fakturierungslaufes
      * @param $userId die UserId des Empfaengers
-     * @param SrmInkassoTableBillRuns $tblBill das Table-Objekt mit den Daten zum Rechnungslauf. Falls null, wird instanziert und geladen.
+     * @param SrmInkassoTableBillRuns $tblBillRuns das Table-Objekt mit den Daten zum Rechnungslauf. Falls null, wird instanziert und geladen.
      * @param SrmInkassoTablePositions $tblPositionen das Table-objekt mit den Daten der Rechnungspositionen, noch nicht geladen.
      * @return string der absolute Dateinamen mit Pfad der generierten PDF-Datei.
      */
-    public function createUserFaktura($billId, $userId, SrmInkassoTableBillRuns $tblBill = null,SrmInkassoTablePositions $tblPositionen = null){
+    public function createUserFaktura($billRunId, $userId, SrmInkassoTableBillRuns $tblBillRuns = null,SrmInkassoTablePositions $tblPositionen = null){
 
         //billItem laden, falls nur mit billid und userid aufgerufen
-        if(is_null($tblBill)){
-            $tblBill = SrmInkassoTableBillRuns::getInstance();
-            $tblBill->load($billId);
+        if(is_null($tblBillRuns)){
+            $tblBillRuns = SrmInkassoTableBillRuns::getInstance();
+            $tblBillRuns->load($billRunId);
         }
 
         if(is_null($tblPositionen)){
@@ -73,13 +73,13 @@ class UserFakturaHelper {
         }
 
         //pdf-klasse erstellen
-        $pdfDoc = new PdfDocument($tblBill->fk_template);
+        $pdfDoc = new PdfDocument($tblBillRuns->fk_template);
 
-        $userFaktId = $this->appendUserFaktura($tblBill,$userId,$tblPositionen,$pdfDoc);
+        $userFaktId = $this->appendUserFaktura($tblBillRuns,$userId,$tblPositionen,$pdfDoc);
 
 
         //pdf schreiben
-        $fileName = 'bill_' . $billId . '_' . $userFaktId . '.pdf';
+        $fileName = 'bill_' . $billRunId . '_' . $userFaktId . '.pdf';
         $fileNameWithPath = JPATH_COMPONENT_ADMINISTRATOR.DS.'assets'.DS.'files'.DS.'pdf'.DS.$fileName;
         $pdfDoc->writePdf($fileNameWithPath,'F');
 
@@ -104,7 +104,7 @@ class UserFakturaHelper {
 
         foreach ($posList as $pos) {
             $posPdf['datum'] = FormatHelper::formatDate($pos->datum);
-            $posPdf['position'] = $pos->titel; //todo beschreibung anhaengen
+            $posPdf['position'] = $pos->titel;
 
             if(! is_null($pos->kommentar) && strlen($pos->kommentar) > 0){
                 $posPdf['kommentar'] = '<br>' . $pos->kommentar;
@@ -113,8 +113,8 @@ class UserFakturaHelper {
                 $posPdf['kommentar']='';
             }
 
-            $posPdf['betrag'] = FormatHelper::formatWaehrung($pos->preis); //todo individueller Preis holen
-            $total += $pos->preis;
+            $posPdf['betrag'] = FormatHelper::formatWaehrung($pos->individual_preis);
+            $total += $pos->individual_preis;
             $posHtml .= $pdfDoc->replaceContentParameters($posPdf, $positionTemplate);
         }
     }

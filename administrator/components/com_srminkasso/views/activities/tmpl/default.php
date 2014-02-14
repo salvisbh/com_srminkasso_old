@@ -49,8 +49,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			</th>
 		
 			<th width="15%"><?php echo JHtml::_('grid.sort', 'Datum', 'datum', $listDirn, $listOrder); ?></th>
-			<th width="25%"><?php echo JHtml::_('grid.sort', 'Titel', 'titel', $listDirn, $listOrder); ?></th>
-			<th width="30%"><?php echo JHtml::_('grid.sort', 'Beschreibung', 'beschreibung', $listDirn, $listOrder); ?></th>
+			<th width="45%"><?php echo JHtml::_('grid.sort', 'Titel', 'titel', $listDirn, $listOrder); ?></th>
 			<th width="5%"><?php echo JHtml::_('grid.sort', 'Preis', 'preis', $listDirn, $listOrder); ?></th>
 			<th width="15%"><?php echo JHtml::_('grid.sort', 'Leistungsart', 'leistungsart', $listDirn, $listOrder); ?></th>
 			<th width="10%"><?php echo JHtml::_('grid.sort', 'ID', 'id', $listDirn, $listOrder); ?></th>
@@ -72,7 +71,6 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				echo '<a href="' . $mylink . '">' . $this->escape($item->titel) . '</a>';
 				?>
 			</td>
-			<td><?php echo $this->escape($item->beschreibung); ?></td>
 			<td><?php echo $this->escape($item->preis); ?></td>
 			<td><?php echo $this->escape($item->leistungsart); ?></td>
 			<td class="center"><?php echo (int)$item->id; ?></td>

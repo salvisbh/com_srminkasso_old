@@ -85,7 +85,7 @@ class SrmInkassoTablePositions extends JTable
         $query	= $db->getQuery(true);
 
         $query->select('p.individual_preis,p.kommentar')->from($this->getTableName() .' p');
-        $query->select('l.datum,l.titel,l.beschreibung,l.preis');
+        $query->select('l.datum,l.titel,l.beschreibung');
         $query->join('LEFT', '#__srmink_leistungen AS l ON p.fk_leistung = l.id');
 
         $query->where('p.fk_userid=' . (int)$userid, 'AND');
@@ -96,5 +96,27 @@ class SrmInkassoTablePositions extends JTable
 
         return $positions;
 
+    }
+
+    /**
+     * Entfernt bei Positionen die Referenz auf einen Rechnungslauf.
+     * @param $fk_faktura die ID des Rechnungslaufes
+     * @return bool true, falls Referenzen geloest werden konnten, sonst false.
+     */
+    public function removeBillRunReference($fk_faktura){
+
+        $db		= $this->getDbo();
+        $query	= $db->getQuery(true);
+
+        $fields = array($db->quoteName('fk_faktura') .'=null'
+        );
+
+        $conditions = array($db->quoteName('fk_faktura') .'=' . $fk_faktura);
+
+        $query->update($db->quoteName($this->getTableName()))->set($fields)->where($conditions);
+        $db->setQuery($query);
+        $result = $db->query();
+
+        return $result;
     }
 }

@@ -40,10 +40,7 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->form->getLabel('titel'); ?>
 				<?php echo $this->form->getInput('titel'); ?>
 			</li>
-			<li>
-				<?php echo $this->form->getLabel('beschreibung'); ?>
-				<?php echo $this->form->getInput('beschreibung'); ?>
-			</li>
+
 		</ul>
 	</fieldset>
 
