@@ -19,7 +19,7 @@
 			type="sql" 
 			label="Rechnungsstatus" 
 			required="true"
-			query="SELECT id, status FROM #__srmink_fakturastatus" 
+			query="SELECT id, status FROM #__srmink_status where typ=1"
 			key_field="id"
 			value_field="status" />
 				

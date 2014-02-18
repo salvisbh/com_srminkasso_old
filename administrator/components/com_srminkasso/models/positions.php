@@ -149,7 +149,7 @@ class SrmInkassoModelPositions extends JModelList
 	
 	/* Rechnungsstatus */
 	$query->select('s.status');
-	$query->join('LEFT', '#__srmink_fakturastatus as s ON f.fk_fakturastatus = s.id');
+	$query->join('LEFT', '#__srmink_status as s ON f.fk_fakturastatus = s.id');
 	
 	/* Community-Builder User anhaengen */
 	$query->select('cb.lastname AS nachname, cb.firstname as vorname,cb.cb_strasse as strasse, cb.cb_ortschaft as ort');

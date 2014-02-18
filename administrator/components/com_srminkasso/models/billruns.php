@@ -88,7 +88,7 @@ class SrmInkassoModelBillRuns extends JModelList
 
     /* Fakturastatus zu Faktura*/
     $query->select('s.status');
-    $query->join('LEFT','#__srmink_fakturastatus AS s ON f.fk_fakturastatus = s.id');
+    $query->join('LEFT','#__srmink_status AS s ON f.fk_fakturastatus = s.id');
 
     /* Positionen fuer Total */
     $query->select('sum(p.individual_preis) as sum_ind');
