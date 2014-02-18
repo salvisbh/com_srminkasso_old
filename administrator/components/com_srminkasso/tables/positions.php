@@ -70,10 +70,16 @@ class SrmInkassoTablePositions extends JTable
         $query	= $db->getQuery(true);
 
         /* Select-Abfrage in der Standardform aufbauen */
-        $query->select('fk_userid')->from($this->getTableName());
+        $query->select('p.fk_userid')->from($this->getTableName() .' p');
+
+        /* Join aus Name, um Rechnungen alphabetisch sortieren zu koennen*/
+        $query->join('LEFT','#__comprofiler as c ON p.fk_userid = c.user_id');
+
         $query->where('fk_faktura=' .(int)$billId);
         $query->group('fk_userid');
+        $query->order('c.lastname');
         $db->setQuery($query);
+
         $userIds = $db->loadObjectList();
 
         return $userIds;
@@ -90,6 +96,7 @@ class SrmInkassoTablePositions extends JTable
 
         $query->where('p.fk_userid=' . (int)$userid, 'AND');
         $query->where('p.fk_faktura=' .(int)$billId);
+        $query->order('l.datum');
 
         $db->setQuery($query);
         $positions = $db->loadObjectList();
