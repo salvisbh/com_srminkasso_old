@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="component" version="2.5.0" method="upgrade">
 	<name>SrmInkasso</name>
-	<creationDate>01.02.2014</creationDate>
+	<creationDate>%%builddate%%</creationDate>
 	<author>Hanspeter Salvisberg</author>
 	<authorEmail>hanspeter.salvisberg@gmx.ch</authorEmail>
 	<authorUrl>http://www.srm-murten.ch</authorUrl>

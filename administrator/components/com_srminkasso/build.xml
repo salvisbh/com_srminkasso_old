@@ -6,6 +6,10 @@
     <property name="buildDir"  value="./build" override="true" />
     <property name="adminDir"  value="${buildDir}/admin" override="true" />
 
+    <tstamp>
+        <format property="DATE" pattern="%d.%m.%Y %H:%M" />
+    </tstamp>
+
     <!-- ============================================  -->
     <!-- Target: prepare                               -->
     <!-- ============================================  -->
@@ -32,6 +36,7 @@
             <filterchain>
                 <replacetokens begintoken="%%" endtoken="%%">
                     <token key="version" value="${version}" />
+                    <token key="builddate" value="${DATE}" />
                 </replacetokens>
             </filterchain>
 
@@ -98,7 +103,7 @@
     <target name="dist" depends="build">
         <echo msg="Creating archive..." />
 
-        <zip destfile="${buildDir}/com_srminkasso-0.0.2.zip">
+        <zip destfile="${buildDir}/com_srminkasso-${version}.zip">
             <fileset dir="${buildDir}">
                 <include name="**" />
             </fileset>
