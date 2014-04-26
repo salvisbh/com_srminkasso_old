@@ -29,7 +29,7 @@
 		<field 
 			name="fk_leistung" 
 			type="sql" 
-			label="Leistung"
+			label="Leistungsart" 
 			required="true"
 			query="SELECT id, titel FROM #__srmink_leistungen" 
 			key_field="id"

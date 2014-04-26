@@ -85,4 +85,6 @@ class SrmInkassoTableBills extends JTable
 
         return $result;
     }
+
+
 }

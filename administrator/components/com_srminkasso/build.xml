@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="com_srminkasso" default="dist">
+
+    <property name="version"  value="0.0.2" override="true" />
+    <property name="buildDir"  value="./build" override="true" />
+    <property name="adminDir"  value="${buildDir}/admin" override="true" />
+
+    <!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <echo msg="Ueberfluessige Assets loeschen (pdf Dateien)" />
+        <delete>
+            <fileset dir="assets/files/pdf">
+                <include name="*.pdf" />
+            </fileset>
+        </delete>
+
+        <echo msg="Verzeichnis initialisieren: ./build" />
+        <delete dir="${buildDir}" />
+        <mkdir dir="${buildDir}" />
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <target name="build" depends="prepare">
+
+        <echo msg="Copying plugin descriptor..." />
+        <copy file="./srminkasso.xml" tofile="${buildDir}/srminkasso.xml">
+            <filterchain>
+                <replacetokens begintoken="%%" endtoken="%%">
+                    <token key="version" value="${version}" />
+                </replacetokens>
+            </filterchain>
+
+        </copy>
+
+        <echo msg="Copying admin files to admin directory..." />
+        <copy file="./srminkasso.php" tofile="${adminDir}/srminkasso.php" />
+        <copy file="./controller.php" tofile="${adminDir}/controller.php" />
+
+        <echo msg="Copying assets files to admin directory..." />
+        <copy todir="${adminDir}/assets">
+            <fileset dir="assets">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying controller files to admin directory..." />
+        <copy todir="${adminDir}/controllers">
+            <fileset dir="controllers">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying helpers files to admin directory..." />
+        <copy todir="${adminDir}/helpers">
+            <fileset dir="helpers">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying models files to admin directory..." />
+        <copy todir="${adminDir}/models">
+            <fileset dir="models">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying sql files to admin directory..." />
+        <copy todir="${adminDir}/sql">
+            <fileset dir="sql">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying tables files to admin directory..." />
+        <copy todir="${adminDir}/tables">
+            <fileset dir="tables">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying views files to admin directory..." />
+        <copy todir="${adminDir}/views">
+            <fileset dir="views">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- ============================================  -->
+    <target name="dist" depends="build">
+        <echo msg="Creating archive..." />
+
+        <zip destfile="${buildDir}/com_srminkasso-0.0.2.zip">
+            <fileset dir="${buildDir}">
+                <include name="**" />
+            </fileset>
+        </zip>
+
+        <echo msg="Files copied and compressed in build directory OK!" />
+    </target>
+</project>

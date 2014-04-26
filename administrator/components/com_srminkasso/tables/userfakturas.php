@@ -120,4 +120,36 @@ class SrmInkassoTableUserfakturas extends JTable
         $result = $db->updateObject($this->getTableName(),$fakturaItem,$this->getKeyName());
         return $result;
     }
+
+    /**
+     * Gibt fuer einen BillRun alle Rechnungen, sortiert nach Rechnungsnummer, zurueck.
+     * Diese Funktion wird verwendet fuer das Generieren des PDF-Belegs eines Billruns.
+     * @param $billRunId
+     */
+    public function getBillsWithEmpfaengerForBillRun($billRunId){
+        $db = $this->getDbo();
+        $query = $db->getQuery(true);
+
+        $select = <<<EOD
+        uf.id fakturaId,
+        uf.fk_userId userId,
+        uf.totalbetrag,
+        c.lastname nachname,
+        c.firstname vorname,
+        c.cb_ortschaft ort,
+        c.cb_telefon telefon,
+        c.cb_handy handy,
+        u.email email
+EOD;
+        $query->select($select)->from('#__srmink_userfaktura uf');
+        $query->join('LEFT','#__comprofiler c on uf.fk_userid = c.user_id');
+        $query->join('LEFT','#__users u on uf.fk_userid = u.id');
+        $query->where('uf.fk_faktura=' .(int)$billRunId);
+        $query->order('uf.id');
+        $db->setQuery($query);
+        $userBills = $db->loadObjectList();
+
+        return $userBills;
+
+    }
 }

@@ -106,6 +106,42 @@ class SrmInkassoTablePositions extends JTable
     }
 
     /**
+     * Gibt die Zusammenfassung nach Leistungsart einer UserBill zurueck.
+     * @param $userId die UserId.
+     * @param $billRunId die BillRunID.
+     * @return mixed
+     */
+    public function getLeistungsartenSummaryForUserBill($userId,$billRunId){
+
+        $db	= $this->getDbo();
+        $query	= $db->getQuery(true);
+        $query->select('la.id,la.titel,la.konto,sum(p.individual_preis) summeLeistungsart')->from($this->getTableName() . ' p');
+        $query->join('LEFT','#__srmink_leistungen as l on p.fk_leistung = l.id');
+        $query->join('LEFT','#__srmink_leistungsarten as la on l.fk_leistungsart = la.id');
+        $query->where('p.fk_faktura=' .(int)$billRunId,'AND');
+        $query->where('p.fk_userid=' .(int)$userId);
+        $query->group('la.titel');
+
+        $db->setQuery($query);
+        $leistungsArten = $db->loadObjectList();
+
+        return $leistungsArten;
+    }
+
+//    public function getTotalbetragForUserBill($userId,$billRunId){
+//
+//        $db	= $this->getDbo();
+//        $query	= $db->getQuery(true);
+//        $query->select('sum(individual_preis) totalbetrag')->from($this->getTableName());
+//        $query->where('fk_faktura=' .(int)$billRunId,'AND');
+//        $query->where('fk_userid=' .(int)$userId);
+//
+//        $db->setQuery($query);
+//        $totalbetrag = $db->loadObject();
+//
+//        return $totalbetrag;
+//    }
+    /**
      * Entfernt bei Positionen die Referenz auf einen Rechnungslauf.
      * @param $fk_faktura die ID des Rechnungslaufes
      * @return bool true, falls Referenzen geloest werden konnten, sonst false.
