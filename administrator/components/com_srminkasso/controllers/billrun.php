@@ -1,12 +1,12 @@
 <?php
 /**
- * SRM_Inkasso korrigiert
+ * Joomla! 2.5 - Erweiterungen programmieren
  *
  * Controller für die View MyThing (Formular)
  *
  * @package    SrmInkasso
-* @subpackage Backend
-* @author     Hp. Salvisberg
+ * @subpackage Backend
+ * @author     Hp. Salvisberg
  * @license    GNU/GPL
  */
 defined('_JEXEC') or die;
