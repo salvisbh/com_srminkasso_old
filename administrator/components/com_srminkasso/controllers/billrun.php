@@ -5,8 +5,8 @@
  * Controller für die View MyThing (Formular)
  *
  * @package    SrmInkasso
-* @subpackage Backend
-* @author     Hp. Salvisberg
+ * @subpackage Backend
+ * @author     Hp. Salvisberg
  * @license    GNU/GPL
  */
 defined('_JEXEC') or die;
@@ -108,7 +108,7 @@ class SrmInkassoControllerBillRun extends JControllerForm
             return false;
         }
 
-        //BillRunItem laden
+        //BillRunItem laden, wird nur fuer Titel gebraucht
         $tblBillRuns = SrmInkassoTableBillRuns::getInstance();
         $tblBillRuns->load($billrunId);
 
@@ -119,26 +119,49 @@ class SrmInkassoControllerBillRun extends JControllerForm
 <table border="1" cellpadding="2" cellspacing="2">
 <thead>
  <tr style="background-color:#FFFF00;color:#0000FF;">
-  <td width="20" align="center"><b>Nr</b></td>
-  <td width="70" align="center"><b>Name</b></td>
-  <td width="70" align="center"><b>Vorname</b></td>
-  <td width="80" align="center"> <b>Ort</b></td>
-  <td width="100" align="center"> <b>Telefon</b></td>
-  <td width="140" align="center"> <b>email</b></td>
-  <td width="20" align="center"><b>Total</b></td>
+  <td width="40"><b>Nr</b></td>
+  <td width="130"><b>Empfänger</b></td>
+  <td width="180"> <b>Tel. / eMail</b></td>
+  <td width="50"><b>Total</b></td>
+  <td width="200"><b>Kontierung</b></td>
  </tr>
 </thead>
 EOD;
 
-        $db = JFactory::getDbo();
+        //userbills holen
+        $tblUserFakturas = SrmInkassoTableUserfakturas::getInstance();
+        $userBills = $tblUserFakturas->getBillsWithEmpfaengerForBillRun($billrunId);
 
-        //Fuer jeden Nutzer Rechnung erstellen
-        foreach ( $billableUserIds as $userId ) {
+        foreach($userBills as $userBill){
 
-            $fk_userid = $userId->fk_userid;
-            $userSummary = $this->getUserSummaryForBillRun($tblBillRuns,$fk_userid,$db);
+            //Einzelzeile erstellen
+            $zeile = '<tr>';
 
-            $tbl = $tbl . $userSummary;
+            $zeile = $zeile . "<td width=\"40\">" .$userBill->fakturaId .'</td>';
+            $zeile = $zeile . "<td width=\"130\">" .$userBill->nachname .' ' . $userBill->vorname . '<br/>' .$userBill->ort . '</td>';
+            $zeile = $zeile . "<td width=\"180\">" .$userBill->telefon . '<br/>' .$userBill->email .'</td>';
+            $zeile = $zeile . "<td width=\"50\">" .$userBill->totalbetrag .'</td>';
+
+            //Daten fuer Kontierung holen und anhaengen
+            $lpSummary = $tblPositions->getLeistungsartenSummaryForUserBill($userBill->userId,$billrunId);
+            $zeile = $zeile . "<td width=\"200\">";
+
+            $i = 0;
+            foreach($lpSummary as $kto){
+
+                if( $i > 1){
+                    $zeile = $zeile . '<br/>';
+                }
+
+                $zeile = $zeile . $kto->titel . ' (' . $kto->konto . '): ' . $kto->summeLeistungsart;
+                $i++;
+            }
+
+            $zeile = $zeile . '</td>';
+            $zeile = $zeile . '</tr>';
+
+            //...und Zeile an HTML anhaengen
+            $tbl = $tbl . $zeile;
         }
 
         $pdfDoc->addPage($tbl);
@@ -149,48 +172,4 @@ EOD;
 
     }
 
-    /**
-     * @param SrmInkassoTableBillRuns $tblBillRuns
-     * @param $fk_userid
-     * @param JDatabase $db
-     * @return string
-     */
-    private function getUserSummaryForBillRun(SrmInkassoTableBillRuns $tblBillRuns,$fk_userid,JDatabase $db){
-
-        //Rechnungsreccord holen fuer Zugriff auf die Rechnungsnummer
-        $tblUserFaktura = SrmInkassoTableUserfakturas::getInstance();
-        $tblUserFaktura->createOrLoadUserFakturaForBill($fk_userid, $tblBillRuns->id);
-
-        $ret = '<tr>';
-
-        $query = $db->getQuery(true);
-
-        $select = <<<EOD
-        sum(p.individual_preis) totalbetrag,
-        c.lastname nachname,
-        c.firstname vorname,
-        c.cb_ortschaft ort,
-        c.cb_telefon telefon,
-        c.cb_handy handy,
-        u.email email
-EOD;
-        $query->select($select)->from('#__srmink_positionen p');
-        $query->join('LEFT','#__comprofiler c on p.fk_userid = c.user_id');
-        $query->join('LEFT','#__users u on p.fk_userid = u.id');
-        $query->where('p.fk_faktura=' . $tblBillRuns->id,'AND');
-        $query->where('p.fk_userid=' .$fk_userid);
-
-        $db->setQuery($query);
-        $res = $db->loadObject();
-
-        $ret = $ret . "<td width='20'>" .$tblUserFaktura->id .'</td>';
-        $ret = $ret . '<td>' .$res->nachname .'</td>';
-        $ret = $ret . '<td>' .$res->vorname .'</td>';
-        $ret = $ret . '<td>' .$res->ort .'</td>';
-        $ret = $ret . '<td>' .$res->telefon .'</td>';
-        $ret = $ret . '<td>' .$res->email .'</td>';
-        $ret = $ret . '<td>' .$res->totalbetrag .'</td>';
-        $ret = $ret . '</tr>';
-        return $ret;
-    }
 }
