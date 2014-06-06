@@ -56,7 +56,8 @@ $versandStatus = $this->versandStatus;
 			<th><?php echo JHtml::_('grid.sort', 'Nachname', 'nachname', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Vorname', 'vorname', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'strasse', 'strasse', $listDirn, $listOrder); ?></th>
-			<th><?php echo JHtml::_('grid.sort', 'ort', 'ort', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHtml::_('grid.sort', 'Wohnort', 'ort', $listDirn, $listOrder); ?></th>
+            <th><?php echo JHtml::_('grid.sort', 'Training', 'trainingsgruppe', $listDirn, $listOrder); ?></th>
 			
 			<th><?php echo JHtml::_('grid.sort', 'Leistung', 'leistung', $listDirn, $listOrder); ?>
 				<br />
@@ -99,6 +100,7 @@ $versandStatus = $this->versandStatus;
 			</td>
 			<td><?php echo $this->escape($item->strasse); ?></td>
 			<td><?php echo $this->escape($item->ort); ?></td>
+            <td><?php echo $this->escape($item->trainingsgruppe); ?></td>
 			<td><?php echo $this->escape($item->leistung); ?></td>
             <td><?php echo $this->escape($item->preis); ?></td>
 			<td><?php echo $this->escape($item->individual_preis); ?></td>

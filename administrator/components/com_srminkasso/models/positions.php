@@ -30,7 +30,7 @@ class SrmInkassoModelPositions extends JModelList
 	{
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'datum','nachname','ort', 'leistung','preis','rechnung','fakturadatum','status'
+					'datum','nachname','ort','trainingsgruppe', 'leistung','preis','rechnung','fakturadatum','status'
 			);
 		}
 
@@ -179,7 +179,7 @@ class SrmInkassoModelPositions extends JModelList
 	$query->join('LEFT', '#__srmink_status as s ON f.fk_fakturastatus = s.id');
 	
 	/* Community-Builder User anhaengen */
-	$query->select('cb.lastname AS nachname, cb.firstname as vorname,cb.cb_strasse as strasse, cb.cb_ortschaft as ort');
+	$query->select('cb.lastname AS nachname, cb.firstname as vorname,cb.cb_strasse as strasse, cb.cb_ortschaft as ort, cb.cb_trainingsgruppe as trainingsgruppe');
 	$query->join('LEFT', '#__comprofiler AS cb ON p.fk_userid = cb.user_id');
 		
     /* Falls eine Eingabe im Filterfeld steht: Abfrage um eine WHERE-Klausel ergänzen */
@@ -187,7 +187,7 @@ class SrmInkassoModelPositions extends JModelList
     if (!empty($search)) {
     	$s = $db->quote('%'.$db->escape($search, true).'%');
     	
-    	$query->where('(cb.lastname LIKE ' .$s .' OR cb.firstname LIKE ' .$s .' OR cb.cb_ortschaft LIKE ' .$s .')');
+    	$query->where('(cb.lastname LIKE ' .$s .' OR cb.firstname LIKE ' .$s .' OR cb.cb_ortschaft LIKE ' .$s .' OR cb.cb_trainingsgruppe LIKE ' .$s.')');
     }
     
     /* Auswahl des Anwenders im Leistungen-Filter ermitteln */
