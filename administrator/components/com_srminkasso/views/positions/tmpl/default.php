@@ -24,6 +24,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 
 $activities = $this->activities;
+$versandStatus = $this->versandStatus;
 
 ?>
 
@@ -69,7 +70,13 @@ $activities = $this->activities;
 			<th><?php echo JHtml::_('grid.sort', 'Preis', 'individual_preis', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Fakturierungslauf (F)', 'rechnung', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Datum', 'fakturadatum', $listDirn, $listOrder); ?></th>
-			<th><?php echo JHtml::_('grid.sort', 'F-Status', 'status', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHtml::_('grid.sort', 'F-Status', 'status', $listDirn, $listOrder); ?>
+                <br/>
+                <select name="filter_versandstatus_id" class="inputbox" onchange="this.form.submit()">
+                    <option value="0"><?php echo JText::_('- Alle Status -');?></option>
+                    <?php echo JHTML::_('select.options', $versandStatus, 'id', 'status', $this->state->get('filter.versandstatus_id'));?>
+                </select>
+            </th>
 			<th><?php echo JHtml::_('grid.sort', 'ID', 'id', $listDirn, $listOrder); ?></th>
 		</tr>
 		</thead>

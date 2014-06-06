@@ -42,6 +42,12 @@ class SrmInkassoViewPositions extends JView
 	 * @var unknown
 	 */
 	protected $activities;
+
+    /**
+     * Status auf dem Billrun zur Filterung anhand Versandstatus.
+     * @var
+     */
+    protected $versandStatus;
 	
 	/**
 	 * Rechnungen fuer Filterung der Liste und fuer Batch-Operationen.
@@ -73,7 +79,10 @@ class SrmInkassoViewPositions extends JView
 		
 		/* Activities fuer Filter holen, ruft getActivities im Model */
 		$this->activities = $this->get("activities");
-		
+
+        /* Versandstatus fuer Filter holen, ruft getVersandStatus im Model*/
+        $this->versandStatus = $this->get("versandStatus");
+
 		$this->billruns = $this->get("billruns");
 		
 		/* Aufnbau der Toolbar */

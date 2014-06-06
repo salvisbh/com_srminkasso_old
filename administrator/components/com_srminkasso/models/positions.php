@@ -61,6 +61,25 @@ class SrmInkassoModelPositions extends JModelList
 		return $activities;
 	
 	}
+
+    public function getVersandStatus(){
+
+        /* Referenz auf das Datenbankobjekt */
+        $db	= $this->getDbo();
+
+        /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
+        $query	= $db->getQuery(true);
+
+        /* Select-Abfrage in der Standardform aufbauen */
+        $query->select('id, status')->from('#__srmink_status');
+        $query->where('typ=1');
+        $query->order('id');
+
+        $db->setQuery($query);
+        $versandStatus = $db->loadObjectList();
+
+        return $versandStatus;
+    }
 	
 	public function getBillruns()
 	{
@@ -101,7 +120,14 @@ class SrmInkassoModelPositions extends JModelList
 		/* Auswahl des Benutzers in der Kategorie-Auswahl, übertragen in das state-Objekt */
 		$activityId = $this->getUserStateFromRequest($this->context.'.filter.activity_id', 'filter_activity_id', '');
 		$this->setState('filter.activity_id', $activityId);
-		
+
+        /* Versandstatus in State Objekt legen, default auf 'offen' setzen*/
+        $versandStatusId = $this->getUserStateFromRequest($this->context.'.filter.versandstatus_id', 'filter_versandstatus_id', '');
+        if(!is_numeric($versandStatusId)){
+            $versandStatusId = 1;
+        }
+        $this->setState('filter.versandstatus_id', $versandStatusId);
+
 		/* Sortieren wird netterweise von der Elternklasse übernommen */
 		parent::populateState($ordering, $direction);
 	}
@@ -117,6 +143,7 @@ class SrmInkassoModelPositions extends JModelList
 	{
 		$id	.= ':'.$this->getState('filter.search');
 		$id .= ':'.$this->getState('filter.activity_id');
+        $id .= ':'.$this->getState('filter.versandstatus_id');
 	
 		return parent::getStoreId($id);
 	}
@@ -160,7 +187,7 @@ class SrmInkassoModelPositions extends JModelList
     if (!empty($search)) {
     	$s = $db->quote('%'.$db->escape($search, true).'%');
     	
-    	$query->where('cb.lastname LIKE ' .$s .' OR cb.firstname LIKE ' .$s .' OR cb.cb_ortschaft LIKE ' .$s);
+    	$query->where('(cb.lastname LIKE ' .$s .' OR cb.firstname LIKE ' .$s .' OR cb.cb_ortschaft LIKE ' .$s .')');
     }
     
     /* Auswahl des Anwenders im Leistungen-Filter ermitteln */
@@ -173,7 +200,13 @@ class SrmInkassoModelPositions extends JModelList
     if (is_numeric($activityId)) {
     	$query->where('l.id = '.(int) $activityId);
     }
-    
+
+    /* auswahl des anwenders im Statusfilter ermitteln */
+    $versandStatusId = $this->getState('filter.versandstatus_id');
+    if(is_numeric($versandStatusId) && $versandStatusId > 0){
+        $query->where('f.fk_fakturastatus='.(int)$versandStatusId);
+    }
+
     /* Abfrage um die Sortierangaben ergaenzen, Standardwert ist angegeben */
     $sort  = $this->getState('list.ordering', 'datum');
     $order = $this->getState('list.direction', 'DESC');
