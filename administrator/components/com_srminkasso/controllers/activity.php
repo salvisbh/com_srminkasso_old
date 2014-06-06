@@ -1,6 +1,6 @@
 <?php
 /**
- * Joomla! 2.5 - Erweiterungen programmieren
+ * SRM-Inkasso Leistungsverrechnung
  *
  * Controller für die View MyThing (Formular)
  *
