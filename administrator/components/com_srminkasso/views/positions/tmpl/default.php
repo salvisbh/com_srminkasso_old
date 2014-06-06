@@ -58,6 +58,8 @@ $versandStatus = $this->versandStatus;
 			<th><?php echo JHtml::_('grid.sort', 'strasse', 'strasse', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Wohnort', 'ort', $listDirn, $listOrder); ?></th>
             <th><?php echo JHtml::_('grid.sort', 'Training', 'trainingsgruppe', $listDirn, $listOrder); ?></th>
+            <th><?php echo JHtml::_('grid.sort', 'Geboren', 'geburtsdatum', $listDirn, $listOrder); ?></th>
+            <th><?php echo JHtml::_('grid.sort', 'Alter', 'age', $listDirn, $listOrder); ?></th>
 			
 			<th><?php echo JHtml::_('grid.sort', 'Leistung', 'leistung', $listDirn, $listOrder); ?>
 				<br />
@@ -67,8 +69,8 @@ $versandStatus = $this->versandStatus;
 				</select>
 			</th>
 
-            <th><?php echo JHtml::_('grid.sort', 'Leistungspreis', 'preis', $listDirn, $listOrder); ?></th>
-			<th><?php echo JHtml::_('grid.sort', 'Preis', 'individual_preis', $listDirn, $listOrder); ?></th>
+            <th><?php echo JHtml::_('grid.sort', 'L-Preis', 'preis', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHtml::_('grid.sort', 'Ind-Preis', 'individual_preis', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Fakturierungslauf (F)', 'rechnung', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Datum', 'fakturadatum', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'F-Status', 'status', $listDirn, $listOrder); ?>
@@ -101,6 +103,8 @@ $versandStatus = $this->versandStatus;
 			<td><?php echo $this->escape($item->strasse); ?></td>
 			<td><?php echo $this->escape($item->ort); ?></td>
             <td><?php echo $this->escape($item->trainingsgruppe); ?></td>
+            <td><?php echo $this->escape($item->geburtsdatum); ?></td>
+            <td><?php echo $this->escape($item->age); ?></td>
 			<td><?php echo $this->escape($item->leistung); ?></td>
             <td><?php echo $this->escape($item->preis); ?></td>
 			<td><?php echo $this->escape($item->individual_preis); ?></td>

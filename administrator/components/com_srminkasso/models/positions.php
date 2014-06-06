@@ -30,7 +30,7 @@ class SrmInkassoModelPositions extends JModelList
 	{
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'datum','nachname','ort','trainingsgruppe', 'leistung','preis','rechnung','fakturadatum','status'
+					'datum','nachname','ort','trainingsgruppe','age', 'leistung','preis','rechnung','fakturadatum','status'
 			);
 		}
 
@@ -179,7 +179,7 @@ class SrmInkassoModelPositions extends JModelList
 	$query->join('LEFT', '#__srmink_status as s ON f.fk_fakturastatus = s.id');
 	
 	/* Community-Builder User anhaengen */
-	$query->select('cb.lastname AS nachname, cb.firstname as vorname,cb.cb_strasse as strasse, cb.cb_ortschaft as ort, cb.cb_trainingsgruppe as trainingsgruppe');
+	$query->select('cb.lastname AS nachname, cb.firstname as vorname,cb.cb_strasse as strasse, cb.cb_ortschaft as ort, cb.cb_trainingsgruppe as trainingsgruppe, cb.cb_geburtsdatum as geburtsdatum,(year(current_date) - year(cb.cb_geburtsdatum))-(right(current_date,5) < right(cb.cb_geburtsdatum,5)) as age');
 	$query->join('LEFT', '#__comprofiler AS cb ON p.fk_userid = cb.user_id');
 		
     /* Falls eine Eingabe im Filterfeld steht: Abfrage um eine WHERE-Klausel ergänzen */
