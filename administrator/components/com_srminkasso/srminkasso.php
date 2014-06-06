@@ -1,12 +1,12 @@
 <?php
 /**
- * Joomla! 2.5 - Erweiterungen programmieren
+ * Haupt-Einstiegspunkt in srminkasso Backend.
  *
  * Einstiegspunkt im Backend
  *
- * @package    MyThings
+ * @package    srminkasso
  * @subpackage Backend
- * @author     chmst.de, webmechanic.biz
+ * @author     hanspeter salvisberg
  * @license    GNU/GPL
  */
 defined('_JEXEC') or die;
