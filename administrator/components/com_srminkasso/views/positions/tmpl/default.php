@@ -51,7 +51,7 @@ $activities = $this->activities;
 				<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)"/>
 			</th>
 		
-			<th><?php echo JHtml::_('grid.sort', 'Datum', 'datum', $listDirn, $listOrder); ?></th>
+			<th><?php echo JHtml::_('grid.sort', 'L-Datum', 'datum', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Nachname', 'nachname', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'Vorname', 'vorname', $listDirn, $listOrder); ?></th>
 			<th><?php echo JHtml::_('grid.sort', 'strasse', 'strasse', $listDirn, $listOrder); ?></th>

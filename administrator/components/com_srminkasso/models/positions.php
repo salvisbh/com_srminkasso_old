@@ -1,6 +1,6 @@
 <?php
 /**
- * Joomla! 2.5 - Erweiterungen programmieren
+ * SRM Inkassosystem - Model der Tabelle mit den Leistungspositionen.
  *
  * Das Model Leistungsarten liefert Daten fuer die Uebersicht
  *
@@ -30,7 +30,7 @@ class SrmInkassoModelPositions extends JModelList
 	{
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'person', 'leistung','fakturadatum'
+					'datum','nachname','ort', 'leistung','preis','rechnung','fakturadatum','status'
 			);
 		}
 
