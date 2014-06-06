@@ -16261,8 +16261,15 @@ class TCPDF {
 		$html = preg_replace('/<pre/', '<xre', $html); // preserve pre tag
 		$html = preg_replace('/<(table|tr|td|th|tcpdf|blockquote|dd|div|dl|dt|form|h1|h2|h3|h4|h5|h6|br|hr|li|ol|ul|p)([^\>]*)>[\n\r\t]+/', '<\\1\\2>', $html);
 		$html = preg_replace('@(\r\n|\r)@', "\n", $html);
-		$repTable = array("\t" => ' ', "\0" => ' ', "\x0B" => ' ', "\\" => "\\\\");
-		$html = strtr($html, $repTable);
+        //hps: Das Null-Bit (\0) scheint Probleme zu machen als Schluessel in einem Array, daher werden nachfolgend die Werte einzeln ersetzt.
+		//$repTable = array("\t" => ' ', "\0" => ' ', "\x0B" => ' ', "\\" => "\\\\");
+        //$html = strtr($html, $repTable);
+
+        //hps: Einzeln ersetzen zur Fehlersuche
+        $html = strtr($html, "\t",' ');
+        $html = strtr($html, "\0",' ');
+        $html = strtr($html, "\x0B",' ');
+        $html = strtr($html, "\\","\\\\");
 		$offset = 0;
 		while (($offset < strlen($html)) AND ($pos = strpos($html, '</pre>', $offset)) !== false) {
 			$html_a = substr($html, 0, $offset);
@@ -16307,6 +16314,8 @@ class TCPDF {
 			$html = preg_replace("'<select([^\>]*)>'si", "<select\\1 opt=\"", $html);
 			$html = preg_replace("'#!NwL!#</select>'si", "\" />", $html);
 		}
+
+        //hps: Achtung: Nachfolgend werden einzelne Ersetzungen ausgeklammert, da deren Resultate wegen welchen Gruenden auch immer $html auf leer setzen !!!
 		$html = str_replace("\n", ' ', $html);
 		// restore textarea newlines
 		$html = str_replace('<TBR>', "\n", $html);
@@ -16329,9 +16338,9 @@ class TCPDF {
 		$html = preg_replace('/[\s]<\/([^\>]*)>/', '&nbsp;</\\1>', $html); // preserve some spaces
 		$html = preg_replace('/<su([bp])/', '<zws/><su\\1', $html); // fix sub/sup alignment
 		$html = preg_replace('/<\/su([bp])>/', '</su\\1><zws/>', $html); // fix sub/sup alignment
-		$html = preg_replace('/'.$this->re_space['p'].'+/'.$this->re_space['m'], chr(32), $html); // replace multiple spaces with a single space
+		//hps: $html = preg_replace('/'.$this->re_space['p'].'+/'.$this->re_space['m'], chr(32), $html); // replace multiple spaces with a single space
 		// trim string
-		$html = $this->stringTrim($html);
+		//hps: $html = $this->stringTrim($html);
 		// fix br tag after li
 		$html = preg_replace('/<li><br([^\>]*)>/', '<li> <br\\1>', $html);
 		// fix first image tag alignment
