@@ -1,8 +1,8 @@
 <?php
 /**
- * Joomla! 2.5 - Erweiterungen programmieren
+ * View der Liste mit den Billruns.
  *
- * Standard-Ansicht com_mythings im Backend.
+ * Standard-Ansicht im Backend.
  *
  * @package    SrmInkasso
  * @subpackage Backend

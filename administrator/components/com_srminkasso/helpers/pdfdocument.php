@@ -27,7 +27,7 @@ class PdfDocument {
         $this->templRow->load($templateId);
 
         //pdf Objekt erstellen und initialisieren
-        $this->pdf = new TCPDF(PDF_PAGE_ORIENTATION,PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false)   ;
+        $this->pdf = new TCPDF($this->templRow->ausrichtung,PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false)   ;
         $this->pdf->SetCreator('SRM-Inkassosystem');
         $this->pdf->SetAuthor('http://www.srm-murten.ch');
         $this->pdf->SetTitle('Elektronische Rechnung SRM');
@@ -67,7 +67,8 @@ class PdfDocument {
 
     public function addPage($htmlContent){
         // add a page
-        $this->pdf->AddPage('P','A4');
+        $this->pdf->AddPage($this->templRow->ausrichtung,'A4');
+        //$this->pdf->AddPage('P','A4');
 
         //logo placieren
         if($this->templRow->image_zeigen > 0){

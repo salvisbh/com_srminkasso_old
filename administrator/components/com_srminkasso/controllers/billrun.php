@@ -113,17 +113,20 @@ class SrmInkassoControllerBillRun extends JControllerForm
         $tblBillRuns->load($billrunId);
 
         //pdf-klasse erstellen
-        $pdfDoc = new PdfDocument($tblBillRuns->fk_template);
+        //$pdfDoc = new PdfDocument($tblBillRuns->fk_template);
+        $pdfDoc = new PdfDocument(6);
 
-        $tbl = <<<EOD
+        $titel = '<h1>Buchungsliste ' . $tblBillRuns->titel .'</h1>';
+        $tbl = $titel;
+        $tbl = $tbl . <<<EOD
 <table border="1" cellpadding="2" cellspacing="2">
 <thead>
  <tr style="background-color:#FFFF00;color:#0000FF;">
   <td width="40"><b>Nr</b></td>
-  <td width="130"><b>Empfänger</b></td>
-  <td width="180"> <b>Tel. / eMail</b></td>
+  <td width="220"><b>Empfänger</b></td>
+  <td width="320"> <b>Tel. / eMail</b></td>
   <td width="50"><b>Total</b></td>
-  <td width="200"><b>Kontierung</b></td>
+  <td width="250"><b>Kontierung</b></td>
  </tr>
 </thead>
 EOD;
@@ -138,18 +141,18 @@ EOD;
             $zeile = '<tr>';
 
             $zeile = $zeile . "<td width=\"40\">" .$userBill->fakturaId .'</td>';
-            $zeile = $zeile . "<td width=\"130\">" .$userBill->nachname .' ' . $userBill->vorname . '<br/>' .$userBill->ort . '</td>';
-            $zeile = $zeile . "<td width=\"180\">" .$userBill->telefon . '<br/>' .$userBill->email .'</td>';
+            $zeile = $zeile . "<td width=\"220\">" .$userBill->nachname .' ' . $userBill->vorname . ', ' .$userBill->ort . '</td>';
+            $zeile = $zeile . "<td width=\"320\">" .$userBill->telefon . ' / ' .$userBill->email .'</td>';
             $zeile = $zeile . "<td width=\"50\">" .$userBill->totalbetrag .'</td>';
 
             //Daten fuer Kontierung holen und anhaengen
             $lpSummary = $tblPositions->getLeistungsartenSummaryForUserBill($userBill->userId,$billrunId);
-            $zeile = $zeile . "<td width=\"200\">";
+            $zeile = $zeile . "<td width=\"250\">";
 
             $i = 0;
             foreach($lpSummary as $kto){
 
-                if( $i > 1){
+                if( $i > 0){
                     $zeile = $zeile . '<br/>';
                 }
 

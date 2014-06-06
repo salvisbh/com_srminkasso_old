@@ -1,6 +1,6 @@
 <?php
 /**
- * Joomla! 2.5 - Erweiterungen programmieren
+ * Datenmodell fuer die Listendarstellung der Billruns.
  *
  * Das Model Leistungsarten liefert Daten fuer die Uebersicht
  *
@@ -69,7 +69,7 @@ class SrmInkassoModelBillRuns extends JModelList
 	}
 	
   /**
-   * Datenbankabfrage fuerr die Listenansicht aufbauen.
+   * Datenbankabfrage fuer die Listenansicht aufbauen.
    * Suchfilter und Sortierung werden beruecksichtigt, ansonsten
    * wird aufsteigend nach `bezeichnung` sortiert.
    *

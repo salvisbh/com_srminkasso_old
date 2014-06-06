@@ -29,4 +29,11 @@
             <folder>views</folder>
         </files>
 	</administration>
+
+    <update>
+        <schemas>
+            <schemapath type="mysql">sql/updates</schemapath>
+        </schemas>
+    </update>
+
 </extension>
