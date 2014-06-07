@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 
 /* Erweitern der Basisklasse JView */
-class SrmInkassoViewPosition extends JView
+class SrmInkassoViewBill extends JView
 {
 	/* Der Datensatz, der zu bearbeiten ist */
 	protected $item;
@@ -22,7 +22,7 @@ class SrmInkassoViewPosition extends JView
 	protected $form;
 
     /* Die Form-ID des elements it im Parent - form-element */
-    protected $formId = 'position-form';
+    protected $formId = 'bill-form';
 
 	/**
 	 * Die Methode display wird überschrieben, um den für die
@@ -41,15 +41,16 @@ class SrmInkassoViewPosition extends JView
 		/* Bei Änderung: Der Datensatz wird aus der Datenbank geholt*/
 		$this->item = $this->get('Item');
 
+
 		/* Aufruf der Funktion für die Toolbar*/
 		$this->addToolbar();
 
         /* fuehrt zum Laden von edit_fullpage.php im zusaeztlichen Templatepath */
         parent::addTemplatePath($this->_basePath . '/views/srminkasso');
-
-        /* Ausgabe des View-Templates delegieren an die Elternklasse, explizit xml-basiertes Layout verwenden */
         parent::display('fullpage');
 
+		/* Ausgabe des View-Templates delegieren an die Elternklasse */
+		//parent::display($tpl);
 	}
 
 	/**
@@ -57,27 +58,17 @@ class SrmInkassoViewPosition extends JView
 	 */
 	protected function addToolbar()
 	{
-		/* Der Toolbar-Titel wird gesetzt: Neuaufnahme oder Änderung */
-		if ($this->item->id == 0) {
-			JToolBarHelper::title(JText::_('Neue Leistungsposition'));
-		} else {
-			JToolBarHelper::title(JText::_('Leistungsposition mutieren'));
-		}
+		/* Der Toolbar-Titel wird gesetzt: Nur Änderung moeglich */
+		JToolBarHelper::title(JText::_('Fakturierung mutieren'));
 
         /* Speichern */
-		JToolBarHelper::apply('position.apply', 'JTOOLBAR_APPLY');
+		JToolBarHelper::apply('bill.apply', 'JTOOLBAR_APPLY');
 
 		/* Speichern und Schließen Controller mything */
-		JToolBarHelper::save('position.save', 'JTOOLBAR_SAVE');
-
-		/* Button speichern und neu. Kein spezielles Icon ausgewählt */
-		JToolBarHelper::save2new('position.save2new');
-
-		/* Button "als Kopie speichern". Kein spezielles Icon ausgewählt */
-		JToolBarHelper::save2copy('position.save2copy');
+		JToolBarHelper::save('bill.save', 'JTOOLBAR_SAVE');
 
 		/* Button cancel; Controller mything */
-		JToolBarHelper::cancel('position.cancel', 'JTOOLBAR_CANCEL');
+		JToolBarHelper::cancel('bill.cancel', 'JTOOLBAR_CANCEL');
 	}
 
 }

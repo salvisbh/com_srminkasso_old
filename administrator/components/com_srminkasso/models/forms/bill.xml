@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<form>
+    <!-- Achtung: fieldset muss benannt sein, sonst werden Felder nicht eingelesen -->
+	<fieldset name="Rechnung">
+
+        <field name="fk_userid" type="user"
+               label="Rechnungsempfänger"
+               class="readonly"
+               readonly="true"
+               filter="unset" />
+
+        <field type="spacer" name="myspacer" hr="true" />
+
+        <field
+                name="id"
+                type="text"
+                readonly="true"
+                default="0" />
+
+		<field
+			name="zahlungsdatum"
+			type="calendar"
+        	label="Zahlungsdatum"
+        	description="Datum Zahlungseingang"
+        	required="false"
+        	size="20" />
+			
+		<field 
+			name="status"
+			type="sql" 
+			label="Rechnungsstatus" 
+			required="true"
+			query="SELECT id, status FROM #__srmink_status where typ=2"
+			key_field="id"
+			value_field="status" />
+
+	</fieldset>
+</form>
