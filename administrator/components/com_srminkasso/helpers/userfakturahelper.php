@@ -18,7 +18,7 @@ JLoader::register('SrmInkassoTableUserfakturas', JPATH_COMPONENT . '/tables/user
 
 class UserFakturaHelper {
 
-    /**
+      /**
      * Erstellt zu einem Empfaenger und einem Fakturalauf eine Rechnung und gibt deren HTML-Text zurueck.
      * @param $tblBill die Tabelle mit den Rechnungsdaten, positioniert auf dem aktuellen Rechnungslauf.
      * @param $userId die UserId des Empfaengers.
@@ -47,6 +47,7 @@ class UserFakturaHelper {
 
         //userfaktura aktualisieren
         $tblUserFaktura->totalbetrag=$total;
+        $tblUserFaktura->status=SrmInkassoTableUserfakturas::$STATUS_OFFEN;
         $tblUserFaktura->updateUserFakturaForBill($tblUserFaktura);
 
         return $tblUserFaktura->id;        //todo Fehler pruefen und im Fehlerfall 0 zurueckgeben.

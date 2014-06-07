@@ -16,6 +16,8 @@ defined('_JEXEC') or die;
 */
 class SrmInkassoTableUserfakturas extends JTable
 {
+    public static $STATUS_OFFEN=4;
+
     /**
      * Gibt eine Instanz eines Tabellenobjekts zurueck.
      * @return SrmInkassoTableUserfakturas
@@ -78,6 +80,7 @@ class SrmInkassoTableUserfakturas extends JTable
             $obj = new stdClass();
             $obj->fk_userid=$userid;
             $obj->fk_faktura=$billId;
+            $obj->status=self::$STATUS_OFFEN;
             $result = $db->insertObject($this->getTableName(),$obj);
 
             //...und nochmals laden

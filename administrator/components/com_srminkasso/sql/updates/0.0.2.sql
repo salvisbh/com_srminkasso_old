@@ -23,3 +23,8 @@ VALUES
 0,
 'billrunstatistik',
 'L');
+
+UPDATE `#__srmink_userfaktura`
+SET
+`status` = 4
+where `id` > 0;
