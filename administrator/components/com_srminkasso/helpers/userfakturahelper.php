@@ -14,7 +14,7 @@ JLoader::register('CbUserHelper', JPATH_COMPONENT . '/helpers/cbuserhelper.php')
 JLoader::register('FormatHelper', JPATH_COMPONENT . '/helpers/formathelper.php');
 JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 JLoader::register('SrmInkassoTableBillRuns', JPATH_COMPONENT . '/tables/billruns.php');
-JLoader::register('SrmInkassoTableUserfakturas', JPATH_COMPONENT . '/tables/userfakturas.php');
+JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
 
 class UserFakturaHelper {
 
@@ -29,8 +29,8 @@ class UserFakturaHelper {
     public function appendUserFaktura(SrmInkassoTableBillRuns $tblBill,$userId,SrmInkassoTablePositions $tblPositionen,PdfDocument $pdfDoc){
 
         //Rechnungsreccord holen
-        $tblUserFaktura = SrmInkassoTableUserfakturas::getInstance();
-        $tblUserFaktura->createOrLoadUserFakturaForBill($userId, $tblBill->id);
+        $tblBills = SrmInkassoTableBills::getInstance();
+        $tblBills->createOrLoadUserFakturaForBill($userId, $tblBill->id);
 
         //Variablen, welche in Methode ueberschrieben werden
         $total = 0;     //Gesamtbetrag
@@ -40,17 +40,17 @@ class UserFakturaHelper {
         $this->fillPositionTemplate($tblBill->id, $userId, $tblPositionen, $pdfDoc, $total, $posHtml);
 
         //Body erstellen...
-        $htmlContent = $this->getFakturyBody($userId,$tblBill, $pdfDoc, $tblUserFaktura, $posHtml, $total);
+        $htmlContent = $this->getFakturyBody($userId,$tblBill, $pdfDoc, $tblBills, $posHtml, $total);
 
         //...und PDF-Seite anhaengen
         $pdfDoc->addPage($htmlContent);
 
         //userfaktura aktualisieren
-        $tblUserFaktura->totalbetrag=$total;
-        $tblUserFaktura->status=SrmInkassoTableUserfakturas::$STATUS_OFFEN;
-        $tblUserFaktura->updateUserFakturaForBill($tblUserFaktura);
+        $tblBills->totalbetrag=$total;
+        $tblBills->status=SrmInkassoTableBills::$STATUS_OFFEN;
+        $tblBills->updateUserFakturaForBill($tblBills);
 
-        return $tblUserFaktura->id;        //todo Fehler pruefen und im Fehlerfall 0 zurueckgeben.
+        return $tblBills->id;        //todo Fehler pruefen und im Fehlerfall 0 zurueckgeben.
     }
 
     /**

@@ -16,7 +16,7 @@ JLoader::register('PdfDocument', JPATH_COMPONENT . '/helpers/pdfdocument.php');
 JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 JLoader::register('SrmInkassoTableBillRuns', JPATH_COMPONENT . '/tables/billruns.php');
 JLoader::register('UserFakturaHelper', JPATH_COMPONENT . '/helpers/userfakturahelper.php');
-JLoader::register('SrmInkassoTableUserfakturas', JPATH_COMPONENT . '/tables/userfakturas.php');
+JLoader::register('SrmInkassoTableBills', JPATH_COMPONENT . '/tables/bills.php');
 
 /**
  * Der Controller MyThingsController erbt alles von JController
@@ -132,8 +132,8 @@ class SrmInkassoControllerBillRun extends JControllerForm
 EOD;
 
         //userbills holen
-        $tblUserFakturas = SrmInkassoTableUserfakturas::getInstance();
-        $userBills = $tblUserFakturas->getBillsWithEmpfaengerForBillRun($billrunId);
+        $tblBills = SrmInkassoTableBills::getInstance();
+        $userBills = $tblBills->getBillsWithEmpfaengerForBillRun($billrunId);
 
         foreach($userBills as $userBill){
 
