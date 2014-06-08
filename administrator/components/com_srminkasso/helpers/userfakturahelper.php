@@ -46,7 +46,6 @@ class UserFakturaHelper {
         $pdfDoc->addPage($htmlContent);
 
         //userfaktura aktualisieren
-        $tblBills->totalbetrag=$total;
         $tblBills->status=SrmInkassoTableBills::$STATUS_OFFEN;
         $tblBills->updateUserFakturaForBill($tblBills);
 

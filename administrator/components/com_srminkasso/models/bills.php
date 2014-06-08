@@ -101,21 +101,40 @@ class SrmInkassoModelBills extends JModelList
     /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
     $query	= $db->getQuery(true);
 
-    /* Select-Abfrage in der Standardform aufbauen */
-    $query->select('f.id,f.totalbetrag as betrag,f.zahlungsdatum as zdatum')->from('#__srmink_userfaktura AS f');
+      /* Select ueber ganzen Join zusammenstellen */
+      $select = <<<EOD
+        sum(if(p.individual_preis > 0,p.individual_preis, l.preis)) as betrag,
+        f.id,
+        f.zahlungsdatum as zdatum,
+        fl.titel,
+        fl.datum,
+        fl.faellig as fdatum,
+        s.status,
+        cb.lastname as name,
+        cb.firstname as vorname,
+        cb.cb_ortschaft as ort
+EOD;
+
+      /* Alle Positionen als Master, um Summe ermitteln zu koennen*/
+      $query->select($select)->from('#__srmink_positionen p');
+
+      /* Leistung fuer Normalpreis*/
+      $query->join('LEFT','#__srmink_leistungen AS l ON p.fk_leistung = l.id');
+
+      /* Details der Userfaktura */
+      $query->join('LEFT','#__srmink_userfaktura f on p.fk_faktura = f.fk_faktura and f.fk_userid=p.fk_userid');
 
     /* Fakturierungslauf */
-    $query->select('fl.titel,fl.datum,fl.faellig as fdatum');
-    $query->join('LEFT', '#__srmink_fakturierungen AS fl ON f.fk_faktura = fl.id');
+    $query->join('LEFT', '#__srmink_fakturierungen AS fl ON p.fk_faktura = fl.id');
 
       /* Rechnungsstatus */
-      $query->select('s.status');
       $query->join('LEFT', '#__srmink_status as s ON f.status = s.id');
 
     /* Empfänger */
-	$query->select('cb.lastname as name,cb.firstname as vorname,cb.cb_ortschaft as ort');
-	$query->join('LEFT', '#__comprofiler AS cb ON f.fk_userid = cb.user_id');
-    
+	$query->join('LEFT', '#__comprofiler AS cb ON p.fk_userid = cb.user_id');
+
+    $query->group('f.id');
+
     /* Falls eine Eingabe im Filterfeld steht: Abfrage um eine WHERE-Klausel ergänzen */
     $search = $this->getState('filter.search');
     if (!empty($search)) {
