@@ -49,8 +49,6 @@ class SrmInkassoViewBill extends JView
         parent::addTemplatePath($this->_basePath . '/views/srminkasso');
         parent::display('fullpage');
 
-		/* Ausgabe des View-Templates delegieren an die Elternklasse */
-		//parent::display($tpl);
 	}
 
 	/**

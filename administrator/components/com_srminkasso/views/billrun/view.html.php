@@ -21,6 +21,9 @@ class SrmInkassoViewBillRun extends JView
 	/* Das Eingabeformular */
 	protected $form;
 
+    /* Die Form-ID des elements it im Parent - form-element */
+    protected $formId = 'billrun-form';
+
 	/**
 	 * Die Methode display wird überschrieben, um den für die
 	 * Formularansicht verwendeten Datensatz bereitzustellen.
@@ -42,8 +45,9 @@ class SrmInkassoViewBillRun extends JView
 		/* Aufruf der Funktion für die Toolbar*/
 		$this->addToolbar();
 
-		/* Ausgabe des View-Templates delegieren an die Elternklasse */
-		parent::display($tpl);
+        /* fuehrt zum Laden von edit_fullpage.php im zusaeztlichen Templatepath */
+        parent::addTemplatePath($this->_basePath . '/views/srminkasso');
+        parent::display('fullpage');
 	}
 
 	/**
