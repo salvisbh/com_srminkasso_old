@@ -26,25 +26,16 @@ class SrmInkassoModelPositionimport extends JModelAdmin
     /* @var $tblActivities SrmInkassoTableActivities */
     private $tblActivities;
 
+    private $positions;
     private $tblNamePos;
 
     public function __construct($config = array()){
         parent::__construct($config);
 
         $this->tblActivities = SrmInkassoTableActivities::getInstance();
-        $this->tblNamePos = SrmInkassoTablePositions::getInstance()->getTableName();
+        $this->positions = SrmInkassoTablePositions::getInstance();
+        $this->tblNamePos = $this->positions->getTableName();
     }
-
-  /**
-   * Methode getTable überschreiben (JModel), um ein
-   * Objekt für unsere Tabelle `leistungsart` zu instanziieren.
-   *
-   * @return SrmInkassoTableLeistungsarts
-   */
-//   public function getTable($type = 'activities', $prefix = 'SrmInkassoTable', $config = array())
-//   {
-//     return JTable::getInstance($type, $prefix, $config);
-//   }
 
   /**
    * Abstrakte Methode getForm() überschreiben, um Formularfelder
@@ -131,9 +122,9 @@ class SrmInkassoModelPositionimport extends JModelAdmin
 
         foreach ( $usergroups as $ug ) {
 
-            $result = $this->addPosition($ug->user_id,
-                        $this->_fk_leistung,
-                        $this->tblActivities->preis);
+            $result = $this->positions->addPosition($ug->user_id,
+                $this->_fk_leistung,
+                        0);
         }
 
     }
@@ -153,21 +144,12 @@ class SrmInkassoModelPositionimport extends JModelAdmin
 
         foreach ( $users as $user ) {
 
-            $result = $this->addPosition($user->user_id,
+            $result = $this->positions->addPosition($user->user_id,
                 $this->_fk_leistung,
-                $this->tblActivities->preis);
+                0);
         }
 
     }
 
-    private function addPosition($userId,$fk_leistung,$preis){
-        $pos = new stdClass();
-        $pos->fk_userid = $userId;
-        $pos->fk_leistung = $fk_leistung;
-        $pos->individual_preis = $preis;
-        $result = $this->getDbo()->insertObject($this->tblNamePos, $pos);
-
-        return $result;
-    }
 }
 

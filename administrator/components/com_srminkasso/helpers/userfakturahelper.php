@@ -102,6 +102,7 @@ class UserFakturaHelper {
 
         //Positionen lesen
         $posList = $tblPositionen->getPositionsForUserBill($userId, $billId);
+        $preisEff = 0;
 
         foreach ($posList as $pos) {
             $posPdf['datum'] = FormatHelper::formatDate($pos->datum);
@@ -114,8 +115,14 @@ class UserFakturaHelper {
                 $posPdf['kommentar']='';
             }
 
-            $posPdf['betrag'] = FormatHelper::formatWaehrung($pos->individual_preis);
-            $total += $pos->individual_preis;
+            if($pos->individual_preis > 0){
+                $preisEff=$pos->individual_preis;
+            }else{
+                $preisEff=$pos->preis;
+            }
+
+            $posPdf['betrag'] = FormatHelper::formatWaehrung($preisEff);
+            $total += $preisEff;
             $posHtml .= $pdfDoc->replaceContentParameters($posPdf, $positionTemplate);
         }
     }

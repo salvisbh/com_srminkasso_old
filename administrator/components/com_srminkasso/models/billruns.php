@@ -84,18 +84,22 @@ class SrmInkassoModelBillRuns extends JModelList
     $query	= $db->getQuery(true);
 
     /* Select-Abfrage in der Standardform aufbauen */
-    $query->select('f.id,f.titel,f.datum,f.faellig')->from('#__srmink_fakturierungen as f');
+    $query->select('sum(if(p.individual_preis > 0,p.individual_preis, l.preis)) as summe')->from('#__srmink_positionen as p');
 
-    /* Fakturastatus zu Faktura*/
+      /* Leistungen fuer Leistungspreis */
+      $query->join('LEFT','#__srmink_leistungen AS l ON p.fk_leistung = l.id');
+
+      /* Fakturierungen  */
+      $query->select('f.id,f.titel,f.datum,f.faellig');
+      $query->join('LEFT','#__srmink_fakturierungen AS f ON p.fk_faktura = f.id');
+
+      /* Fakturastatus zu Faktura*/
     $query->select('s.status');
     $query->join('LEFT','#__srmink_status AS s ON f.fk_fakturastatus = s.id');
 
-    /* Positionen fuer Total */
-    $query->select('sum(p.individual_preis) as sum_ind');
-    $query->join('LEFT','#__srmink_positionen AS p ON f.id = p.fk_faktura');
-    
     $query->group('f.id');
-    
+    $query->where('f.id > 0');
+
     /* Falls eine Eingabe im Filterfeld steht: Abfrage um eine WHERE-Klausel ergänzen */
     $search = $this->getState('filter.search');
     if (!empty($search)) {

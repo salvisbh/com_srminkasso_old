@@ -75,7 +75,7 @@
                    label="x-position"
                    description="Position in der Breite"
                    size="5"
-                   required="true" />
+                   required="false" />
 
             <field name="image_y"
                    type="text"
@@ -83,7 +83,7 @@
                    label="y-position"
                    description="Position in der Höhe"
                    size="5"
-                   required="true" />
+                   required="false" />
 
             <field name="image_breite"
                    type="text"
@@ -91,7 +91,7 @@
                    label="Breite"
                    description="Breite in Pixel"
                    size="5"
-                   required="true" />
+                   required="false" />
 
             <field name="image_hoehe"
                    type="text"
@@ -99,7 +99,7 @@
                    label="Höhe"
                    description="Höhe in Pixel"
                    size="5"
-                   required="true" />
+                   required="false" />
 
             <field name="image_name"
                    type="text"

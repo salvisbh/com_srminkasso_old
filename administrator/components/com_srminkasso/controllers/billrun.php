@@ -122,11 +122,11 @@ class SrmInkassoControllerBillRun extends JControllerForm
 <table border="1" cellpadding="2" cellspacing="2">
 <thead>
  <tr style="background-color:#FFFF00;color:#0000FF;">
-  <td width="40"><b>Nr</b></td>
-  <td width="220"><b>Empfänger</b></td>
+  <td width="60"><b>Nr</b></td>
+  <td width="250"><b>Empfänger</b></td>
   <td width="320"> <b>Tel. / eMail</b></td>
   <td width="50"><b>Total</b></td>
-  <td width="250"><b>Kontierung</b></td>
+  <td width="300"><b>Kontierung</b></td>
  </tr>
 </thead>
 EOD;
@@ -140,14 +140,18 @@ EOD;
             //Einzelzeile erstellen
             $zeile = '<tr>';
 
-            $zeile = $zeile . "<td width=\"40\">" .$userBill->fakturaId .'</td>';
-            $zeile = $zeile . "<td width=\"220\">" .$userBill->nachname .' ' . $userBill->vorname . ', ' .$userBill->ort . '</td>';
+            if(is_null($userBill->fakturaId) ){
+                $zeile = $zeile . "<td width=\"60\">" .'FEHLT!!!</td>';
+            }else{
+                $zeile = $zeile . "<td width=\"60\">" .$userBill->fakturaId .'</td>';
+            }
+            $zeile = $zeile . "<td width=\"250\">" .$userBill->nachname .' ' . $userBill->vorname . ', ' .$userBill->ort . '</td>';
             $zeile = $zeile . "<td width=\"320\">" .$userBill->telefon . ' / ' .$userBill->email .'</td>';
             $zeile = $zeile . "<td width=\"50\">" .$userBill->totalbetrag .'</td>';
 
             //Daten fuer Kontierung holen und anhaengen
             $lpSummary = $tblPositions->getLeistungsartenSummaryForUserBill($userBill->userId,$billrunId);
-            $zeile = $zeile . "<td width=\"250\">";
+            $zeile = $zeile . "<td width=\"300\">";
 
             $i = 0;
             foreach($lpSummary as $kto){

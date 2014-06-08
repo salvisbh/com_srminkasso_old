@@ -50,7 +50,7 @@ class SrmInkassoModelPositions extends JModelList
 		$query	= $db->getQuery(true);
 	
 		/* Select-Abfrage in der Standardform aufbauen */
-		$query->select('id, titel')->from(SrmInkassoTableActivities::getInstance()->getTableName());
+		$query->select('id, left(titel,30) as titel')->from(SrmInkassoTableActivities::getInstance()->getTableName());
 	
 		//TODO: nur fakturierungen von nicht archivierten Leistungen
 // 		$query->where('fk_fakturierung is null');
@@ -156,7 +156,7 @@ class SrmInkassoModelPositions extends JModelList
     $query->select('p.*')->from('#__srmink_positionen AS p');
     
     /* Leistungsart zu Leistung aus #__srmink_leistungsarten ermitteln mit left join*/
-	$query->select('l.titel AS leistung, l.datum as datum,l.preis as preis');
+	$query->select("left(l.titel,30) AS leistung, if(year(l.datum)=0,'',l.datum) as datum,l.preis as preis");
 	$query->join('LEFT', '#__srmink_leistungen AS l ON p.fk_leistung = l.id');
 
 	/* Rechnung */
@@ -193,7 +193,12 @@ class SrmInkassoModelPositions extends JModelList
     /* auswahl des anwenders im Statusfilter ermitteln */
     $versandStatusId = $this->getState('filter.versandstatus_id');
     if(is_numeric($versandStatusId) && $versandStatusId > 0){
-        $query->where('f.fk_fakturastatus='.(int)$versandStatusId);
+        //bei Status offen auch diejenigen Positionen ohne Fakturierungslauf darstellen
+        if($versandStatusId == 1){
+            $query->where('f.fk_fakturastatus='.(int)$versandStatusId.' or f.fk_fakturastatus is null');
+        }else{
+            $query->where('f.fk_fakturastatus='.(int)$versandStatusId);
+        }
     }
 
     /* Abfrage um die Sortierangaben ergaenzen, Standardwert ist angegeben */

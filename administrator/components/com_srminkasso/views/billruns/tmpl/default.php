@@ -72,7 +72,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				echo '<a href="' . $mylink . '">' . $this->escape($item->titel) . '</a>';
 				?>
 			</td>
-			<td><?php echo $this->escape($item->sum_ind); ?></td>
+			<td><?php echo $this->escape($item->summe); ?></td>
             <td align="center">
                 <a href='index.php?option=com_srminkasso&task=billrun.exportPdf&id=<?php print $item->id?>'>
                     <img src='components/com_srminkasso/assets/images/icon-16-print.png'

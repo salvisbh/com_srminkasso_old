@@ -10,8 +10,12 @@ class FormatHelper {
 
     public static function formatDate($date){
 
-        $jDate = new Jdate($date);
-        $datRet = $jDate->format('d.m.Y');
+        if(strchr($date,'0000')){
+            $datRet='';
+        }else{
+            $jDate = new Jdate($date);
+            $datRet = $jDate->format('d.m.Y');
+        }
 
         return $datRet;
     }

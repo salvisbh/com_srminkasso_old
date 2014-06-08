@@ -16,8 +16,8 @@ VALUES
 (
 'Fakturastatistik',
 1,
-20,
-20,
+15,
+15,
 15,
 15,
 0,

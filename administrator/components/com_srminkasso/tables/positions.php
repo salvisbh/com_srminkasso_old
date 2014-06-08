@@ -90,7 +90,7 @@ class SrmInkassoTablePositions extends JTable
         $db	= $this->getDbo();
         $query	= $db->getQuery(true);
 
-        $query->select('p.individual_preis,p.kommentar')->from($this->getTableName() .' p');
+        $query->select('l.preis,p.individual_preis,p.kommentar')->from($this->getTableName() .' p');
         $query->select('l.datum,l.titel,l.beschreibung');
         $query->join('LEFT', '#__srmink_leistungen AS l ON p.fk_leistung = l.id');
 
@@ -115,7 +115,16 @@ class SrmInkassoTablePositions extends JTable
 
         $db	= $this->getDbo();
         $query	= $db->getQuery(true);
-        $query->select('la.id,la.titel,la.konto,sum(p.individual_preis) summeLeistungsart')->from($this->getTableName() . ' p');
+
+        /* Select ueber ganzen Join zusammenstellen */
+        $select = <<<EOD
+            la.id,
+            la.titel,
+            la.konto,
+            sum(if(p.individual_preis > 0,p.individual_preis, l.preis)) summeLeistungsart
+EOD;
+
+        $query->select($select)->from($this->getTableName() . ' p');
         $query->join('LEFT','#__srmink_leistungen as l on p.fk_leistung = l.id');
         $query->join('LEFT','#__srmink_leistungsarten as la on l.fk_leistungsart = la.id');
         $query->where('p.fk_faktura=' .(int)$billRunId,'AND');
@@ -128,19 +137,6 @@ class SrmInkassoTablePositions extends JTable
         return $leistungsArten;
     }
 
-//    public function getTotalbetragForUserBill($userId,$billRunId){
-//
-//        $db	= $this->getDbo();
-//        $query	= $db->getQuery(true);
-//        $query->select('sum(individual_preis) totalbetrag')->from($this->getTableName());
-//        $query->where('fk_faktura=' .(int)$billRunId,'AND');
-//        $query->where('fk_userid=' .(int)$userId);
-//
-//        $db->setQuery($query);
-//        $totalbetrag = $db->loadObject();
-//
-//        return $totalbetrag;
-//    }
     /**
      * Entfernt bei Positionen die Referenz auf einen Rechnungslauf.
      * @param $fk_faktura die ID des Rechnungslaufes
@@ -162,4 +158,15 @@ class SrmInkassoTablePositions extends JTable
 
         return $result;
     }
+
+    public function addPosition($userId,$fk_leistung,$individualPreis){
+        $pos = new stdClass();
+        $pos->fk_userid = $userId;
+        $pos->fk_leistung = $fk_leistung;
+        $pos->individual_preis = $individualPreis;
+        $result = $this->getDbo()->insertObject($this->getTableName(), $pos);
+
+        return $result;
+    }
+
 }

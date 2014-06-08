@@ -158,10 +158,11 @@ class SrmInkassoTableBills extends JTable
         $db = $this->getDbo();
         $query = $db->getQuery(true);
 
+        /* Select ueber ganzen Join zusammenstellen */
         $select = <<<EOD
+        sum(if(p.individual_preis > 0,p.individual_preis, l.preis)) as totalbetrag,
         uf.id fakturaId,
-        uf.fk_userId userId,
-        uf.totalbetrag,
+        p.fk_userId userId,
         c.lastname nachname,
         c.firstname vorname,
         c.cb_ortschaft ort,
@@ -169,11 +170,22 @@ class SrmInkassoTableBills extends JTable
         c.cb_handy handy,
         u.email email
 EOD;
-        $query->select($select)->from('#__srmink_userfaktura uf');
-        $query->join('LEFT','#__comprofiler c on uf.fk_userid = c.user_id');
-        $query->join('LEFT','#__users u on uf.fk_userid = u.id');
-        $query->where('uf.fk_faktura=' .(int)$billRunId);
-        $query->order('uf.id');
+        /* Alle Positionen als Master, um Summe ermitteln zu koennen*/
+        $query->select($select)->from('#__srmink_positionen p');
+
+        /* Leistungen fuer den Normalpreis */
+        $query->join('LEFT','#__srmink_leistungen AS l ON p.fk_leistung = l.id');
+
+        /* Userfaktura, um nicht fakturierte erkennen zu koennen */
+        $query->join('LEFT','#__srmink_userfaktura uf on p.fk_faktura = uf.fk_faktura and uf.fk_userid=p.fk_userid');
+
+        /* Adressdaten */
+        $query->join('LEFT','#__comprofiler c on p.fk_userid = c.user_id');
+        $query->join('LEFT','#__users u on p.fk_userid = u.id');
+
+        $query->where('p.fk_faktura=' .(int)$billRunId);
+        $query->group('uf.id');
+        $query->order('c.lastname');
         $db->setQuery($query);
         $userBills = $db->loadObjectList();
 
