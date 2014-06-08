@@ -91,7 +91,7 @@ class SrmInkassoModelBillRuns extends JModelList
 
       /* Fakturierungen  */
       $query->select('f.id,f.titel,f.datum,f.faellig');
-      $query->join('LEFT','#__srmink_fakturierungen AS f ON p.fk_faktura = f.id');
+      $query->join('RIGHT','#__srmink_fakturierungen AS f ON p.fk_faktura = f.id');
 
       /* Fakturastatus zu Faktura*/
     $query->select('s.status');
