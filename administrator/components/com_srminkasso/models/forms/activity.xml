@@ -36,7 +36,15 @@
 			name="preis"
 			type="text"
 			label="Preis" />
-		
+
+        <field
+                name="archiviert"
+                type="checkbox"
+                label="Archiviert"
+                description="Archivierte Leistungen werden in Auswahllisten nicht mehr angezeigt"
+                value="1"
+                default="0" />
+
 		<field
         	name="beschreibung"
         	type="textarea"
@@ -44,6 +52,7 @@
         	description="Zusätzliche Beschreibung"
 			rows="4"
 			cols="50" />
+
 
 	</fieldset>
 </form>

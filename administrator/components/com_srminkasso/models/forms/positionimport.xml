@@ -31,7 +31,7 @@
 			type="sql" 
 			label="Leistungsart" 
 			required="true"
-			query="SELECT id, titel FROM #__srmink_leistungen" 
+			query="SELECT id, titel FROM #__srmink_leistungen where archiviert=0"
 			key_field="id"
 			value_field="titel" />
 

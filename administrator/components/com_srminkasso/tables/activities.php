@@ -59,6 +59,11 @@ class SrmInkassoTableActivities extends JTable
 	 */
 	public $preis;
 
+    /**
+     * @var boolean archivierte Leistungen werden in Dropdowns nicht mehr angezeigt.
+     */
+    public $archiviert;
+
 	/**
 	* Konstruktor setzt Tabellenname, Primärschlüssel und das
 	* übergebene Datenbankobjekt.

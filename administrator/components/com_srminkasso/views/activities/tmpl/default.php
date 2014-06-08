@@ -47,7 +47,8 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<th width="5">
 				<input type="checkbox" name="checkall-toggle" value="" onclick="checkAll(this)"/>
 			</th>
-		
+
+            <th width="5%"><?php echo JHtml::_('grid.sort', 'Archiviert', 'archiviert', $listDirn, $listOrder); ?></th>
 			<th width="15%"><?php echo JHtml::_('grid.sort', 'Datum', 'datum', $listDirn, $listOrder); ?></th>
 			<th width="45%"><?php echo JHtml::_('grid.sort', 'Titel', 'titel', $listDirn, $listOrder); ?></th>
 			<th width="5%"><?php echo JHtml::_('grid.sort', 'Preis', 'preis', $listDirn, $listOrder); ?></th>
@@ -57,14 +58,15 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 		</thead>
 		<tfoot>
 		<tr>
-			<td colspan="7"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
 		</tr>
 		</tfoot>
 		<tbody>
 	<?php foreach ($this->items as $i => $item) : ?>
 		<tr class="row<?php echo $i % 2; ?>">
 			<td class="center"><?php echo JHtml::_('grid.id', $i, $item->id); ?></td>
-			<td><?php echo $this->escape($item->datum); ?></td>
+            <td class="center"><?php echo $this->escape($item->archiviert); ?></td>
+            <td><?php echo $this->escape($item->datum); ?></td>
 			<td><?php
 				/* Link zum Formular */
 				$mylink = JRoute::_("index.php?option=com_srminkasso&task=activity.edit&id=" . $item->id);

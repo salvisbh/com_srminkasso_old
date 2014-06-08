@@ -17,7 +17,7 @@
 			type="sql" 
 			label="Leistung" 
 			required="true"
-			query="SELECT id, concat(titel,' (CHF ',preis,')') as titel FROM #__srmink_leistungen"
+			query="SELECT id, concat(titel,' (CHF ',preis,')') as titel FROM #__srmink_leistungen where archiviert=0 "
 			key_field="id"
 			value_field="titel" />
 

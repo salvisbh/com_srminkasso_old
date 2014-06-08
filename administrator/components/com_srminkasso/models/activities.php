@@ -84,7 +84,7 @@ class SrmInkassoModelActivities extends JModelList
     $query	= $db->getQuery(true);
 
     /* Select-Abfrage in der Standardform aufbauen */
-    $query->select('l.*')->from('#__srmink_leistungen AS l');
+    $query->select("l.id,l.titel,if(year(l.datum)=0,'',l.datum) as datum, l.beschreibung,l.preis,if(l.archiviert=1,'ja','nein') as archiviert")->from('#__srmink_leistungen AS l');
     
     /* Leistungsart zu Leistung aus #__srmink_leistungsarten ermitteln mit left join*/
 	$query->select('la.titel AS leistungsart');

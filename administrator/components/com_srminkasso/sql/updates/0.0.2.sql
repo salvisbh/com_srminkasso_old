@@ -31,3 +31,6 @@ where `id` > 0;
 
 ALTER TABLE `#__srmink_userfaktura`
 DROP COLUMN `totalbetrag`;
+
+ALTER TABLE `#__srmink_leistungen`
+ADD COLUMN `archiviert` INT NULL DEFAULT 0 AFTER `preis`;

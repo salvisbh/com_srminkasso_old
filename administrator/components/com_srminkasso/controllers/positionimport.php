@@ -75,4 +75,27 @@ class SrmInkassoControllerPositionimport extends JControllerForm
 		
 		return true;
 	}
+
+    /**
+     * Method to cancel an edit.
+     *
+     * @param   string  $key  The name of the primary key of the URL variable.
+     *
+     * @return  boolean  True if access level checks pass, false otherwise.
+     *
+     * @since   11.1
+     */
+    public function cancel($key = null)
+    {
+
+        $this->setRedirect(
+            JRoute::_(
+                'index.php?option=' . $this->option . '&view=positions'
+                . $this->getRedirectToListAppend(), false
+            )
+        );
+
+        return true;
+    }
+
 }
