@@ -25,7 +25,8 @@
 			name="individual_preis"
 			type="text"
 			label="Individueller Preis" />
-			
+
+        <!-- Es werden nur Rechnungslaeufe mit Status kleiner versendet angezeigt -->
 		<field 
 			name="fk_faktura" 
 			type="sql" 

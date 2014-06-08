@@ -85,7 +85,7 @@ $versandStatus = $this->versandStatus;
 		</thead>
 		<tfoot>
 		<tr>
-			<td colspan="13"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="16"><?php echo $this->pagination->getListFooter(); ?></td>
 		</tr>
 		</tfoot>
 		<tbody>
