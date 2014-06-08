@@ -36,6 +36,12 @@ class SrmInkassoViewBills extends JView
 	 * @var object $state
 	 */
 	protected $state;
+
+    /**
+     * Status auf der Rechnung zur Filterung
+     * @var
+     */
+    protected $fakturaStatus;
 	
 	/**
 	 * Überschreiben der Methode display
@@ -55,7 +61,10 @@ class SrmInkassoViewBills extends JView
 		
 		/* Daten fuer die Blaetterfunktion  */
 		$this->pagination	= $this->get('Pagination');
-		
+
+        /* Fakturastatus fuer Filter holen, ruft getFakturaStatus im Model*/
+        $this->fakturaStatus = $this->get("fakturaStatus");
+
 		/* Aufnbau der Toolbar */
 		$this->addToolbar();
 

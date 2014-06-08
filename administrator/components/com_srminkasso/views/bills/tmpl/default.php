@@ -22,6 +22,8 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 /* Die Sortierrichtung - aufsteigend oder absteigend */
 $listDirn = $this->escape($this->state->get('list.direction'));
 
+$fakturaStatus = $this->fakturaStatus;
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_srminkasso&view=bills'); ?>"
@@ -56,7 +58,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<th width="10%"><?php echo JHtml::_('grid.sort', 'Titel', 'titel', $listDirn, $listOrder); ?></th>
             <th width="5%"><?php echo JHtml::_('grid.sort', 'Betrag', 'betrag', $listDirn, $listOrder); ?></th>
             <th width="10%"><?php echo JHtml::_('grid.sort', 'Aktionen', 'aktionen', $listDirn, $listOrder); ?></th>
-            <th width="5%"><?php echo JHtml::_('grid.sort', 'Status', 'status', $listDirn, $listOrder); ?></th>
+            <th width="5%"><?php echo JHtml::_('grid.sort', 'Status', 'status', $listDirn, $listOrder); ?>
+                <br/>
+                <select name="filter_fakturastatus_id" class="inputbox" onchange="this.form.submit()">
+                    <option value="0"><?php echo JText::_('- Alle Status -');?></option>
+                    <?php echo JHTML::_('select.options', $fakturaStatus, 'id', 'status', $this->state->get('filter.fakturastatus_id'));?>
+                </select>
+            </th>
             <th width="8%"><?php echo JHtml::_('grid.sort', 'Fällig', 'fdatum', $listDirn, $listOrder); ?></th>
             <th width="8%"><?php echo JHtml::_('grid.sort', 'Zahlungsdatum', 'zdatum', $listDirn, $listOrder); ?></th>
 		</tr>

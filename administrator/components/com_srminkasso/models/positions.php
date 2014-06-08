@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
 JLoader::register('SrmInkassoTablePositions', JPATH_COMPONENT . '/tables/positions.php');
 JLoader::register('SrmInkassoTableActivities', JPATH_COMPONENT . '/tables/activities.php');
+JLoader::register('SrmInkassoTableStates', JPATH_COMPONENT . '/tables/status.php');
 
 /**
  * Erweiterung der Klasse JModelList, abgeleitet von JModel
@@ -64,21 +65,9 @@ class SrmInkassoModelPositions extends JModelList
 
     public function getVersandStatus(){
 
-        /* Referenz auf das Datenbankobjekt */
-        $db	= $this->getDbo();
-
-        /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
-        $query	= $db->getQuery(true);
-
-        /* Select-Abfrage in der Standardform aufbauen */
-        $query->select('id, status')->from('#__srmink_status');
-        $query->where('typ=1');
-        $query->order('id');
-
-        $db->setQuery($query);
-        $versandStatus = $db->loadObjectList();
-
-        return $versandStatus;
+        $tblStatus = SrmInkassoTableStates::getInstance();
+        $versandStatusListe = $tblStatus->getStatus(1);
+        return $versandStatusListe;
     }
 	
 	public function getBillruns()

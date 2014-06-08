@@ -11,6 +11,7 @@
  */
 defined('_JEXEC') or die;
 jimport('joomla.application.component.modellist');
+JLoader::register('SrmInkassoTableStates', JPATH_COMPONENT . '/tables/status.php');
 
 /**
  * Erweiterung der Klasse JModelList, abgeleitet von JModel
@@ -26,7 +27,7 @@ class SrmInkassoModelBills extends JModelList
 	{
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-					'name', 'titel','status'
+					'name', 'titel','status','ort'
 			);
 		}
 
@@ -49,7 +50,15 @@ class SrmInkassoModelBills extends JModelList
 	
 		/* Suchbegriff fuer diese Ausgabe setzen */
 		$this->setState('filter.search', $search);
-	
+
+        /* fakturastatus in State Objekt legen, default auf 'offen' setzen*/
+        $fakturaStatusId = $this->getUserStateFromRequest($this->context.'.filter.fakturastatus_id', 'filter_fakturastatus_id', '');
+        if(!is_numeric($fakturaStatusId)){
+            $fakturaStatusId = 4;
+        }
+
+        $this->setState('filter.fakturastatus_id', $fakturaStatusId);
+
 		/* Sortieren wird netterweise von der Elternklasse übernommen */
 		parent::populateState($ordering, $direction);
 	}
@@ -64,10 +73,18 @@ class SrmInkassoModelBills extends JModelList
 	protected function getStoreId($id = '')
 	{
 		$id	.= ':'.$this->getState('filter.search');
+        $id .= ':'.$this->getState('filter.fakturastatus_id');
 	
 		return parent::getStoreId($id);
 	}
-	
+
+    public function getFakturaStatus(){
+
+        $tblStatus = SrmInkassoTableStates::getInstance();
+        $fakturaStatusListe = $tblStatus->getStatus(2);
+        return $fakturaStatusListe;
+    }
+
   /**
    * Datenbankabfrage fuerr die Listenansicht aufbauen.
    * Suchfilter und Sortierung werden beruecksichtigt, ansonsten
@@ -85,11 +102,15 @@ class SrmInkassoModelBills extends JModelList
     $query	= $db->getQuery(true);
 
     /* Select-Abfrage in der Standardform aufbauen */
-    $query->select('f.id,f.totalbetrag as betrag,f.zahlungsdatum as zdatum,f.status')->from('#__srmink_userfaktura AS f');
+    $query->select('f.id,f.totalbetrag as betrag,f.zahlungsdatum as zdatum')->from('#__srmink_userfaktura AS f');
 
-    /* Fakturalauf */
+    /* Fakturierungslauf */
     $query->select('fl.titel,fl.datum,fl.faellig as fdatum');
     $query->join('LEFT', '#__srmink_fakturierungen AS fl ON f.fk_faktura = fl.id');
+
+      /* Rechnungsstatus */
+      $query->select('s.status');
+      $query->join('LEFT', '#__srmink_status as s ON f.status = s.id');
 
     /* Empfänger */
 	$query->select('cb.lastname as name,cb.firstname as vorname,cb.cb_ortschaft as ort');
@@ -100,9 +121,15 @@ class SrmInkassoModelBills extends JModelList
     if (!empty($search)) {
     	$s = $db->quote('%'.$db->escape($search, true).'%');
     	
-    	$query->where('cb.lastname LIKE ' .$s . ' or cb.firstname LIKE ' .$s);
+    	$query->where('(cb.lastname LIKE ' .$s . ' or cb.firstname LIKE ' .$s.')');
     }
-    
+
+      /* auswahl des anwenders im Statusfilter ermitteln */
+      $fakturaStatusId = $this->getState('filter.fakturastatus_id');
+      if(is_numeric($fakturaStatusId) && $fakturaStatusId > 0){
+          $query->where('f.status='.(int)$fakturaStatusId);
+      }
+
     /* Abfrage um die Sortierangaben ergaenzen, Standardwert ist angegeben */
     $sort  = $this->getState('list.ordering', 'name');
     $order = $this->getState('list.direction', 'DESC');
