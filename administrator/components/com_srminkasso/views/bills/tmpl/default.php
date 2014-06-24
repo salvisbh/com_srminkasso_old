@@ -93,7 +93,7 @@ $fakturaStatus = $this->fakturaStatus;
             <td align="center">
                 <a href='index.php?option=com_srminkasso&task=bill.exportPdf&id=<?php print $item->id?>&fk_userId=<?php print $item->fk_userId?>&fk_billRunId=<?php print $item->fk_billRunId?>'>
                     <img src='components/com_srminkasso/assets/images/icon-16-print.png'
-                         alt="Rechnungen als PDF exportieren"></a>
+                         title="Rechnung als PDF anzeigen"></a>
             </td>
             <td><?php echo $this->escape($item->status); ?></td>
             <td><?php echo $this->escape($item->fdatum); ?></td>

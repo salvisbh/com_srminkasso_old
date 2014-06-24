@@ -76,10 +76,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
             <td align="center">
                 <a href='index.php?option=com_srminkasso&task=billrun.exportPdf&id=<?php print $item->id?>'>
                     <img src='components/com_srminkasso/assets/images/icon-16-print.png'
-                         alt="Rechnungen als PDF exportieren"></a>
+                         title="Rechnungen als PDF generieren"></a>
                 <a href='index.php?option=com_srminkasso&task=billrun.exportSummary&id=<?php print $item->id?>'>
-                    &NonBreakingSpace;<img src='components/com_srminkasso/assets/images/icon-16-excel.png'
-                         alt="Zusammenzug nach Leistungsart in PDF exportieren"></a>
+                    &NonBreakingSpace;<img src='components/com_srminkasso/assets/images/report_s.png'
+                         title="Buchungsliste nach Empfänger als PDF generieren"></a>
             </td>
 			<td><?php echo $this->escape($item->datum); ?></td>
 			<td><?php echo $this->escape($item->faellig); ?></td>
