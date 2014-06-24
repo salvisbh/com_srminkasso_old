@@ -91,7 +91,7 @@ $fakturaStatus = $this->fakturaStatus;
 			<td><?php echo $this->escape($item->titel); ?></td>
             <td><?php echo $this->escape($item->betrag); ?></td>
             <td align="center">
-                <a href='index.php?option=com_srminkasso&task=bill.exportPdf&id=<?php print $item->id?>'>
+                <a href='index.php?option=com_srminkasso&task=bill.exportPdf&id=<?php print $item->id?>&fk_userId=<?php print $item->fk_userId?>&fk_billRunId=<?php print $item->fk_billRunId?>'>
                     <img src='components/com_srminkasso/assets/images/icon-16-print.png'
                          alt="Rechnungen als PDF exportieren"></a>
             </td>
@@ -102,6 +102,8 @@ $fakturaStatus = $this->fakturaStatus;
 	<?php endforeach; ?>
 		</tbody>
 	</table>
+
+    <?php echo $this->loadTemplate('batch'); ?>
 
 	<input type="hidden" name="task"/>
 	<input type="hidden" name="boxchecked" value="0"/>

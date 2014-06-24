@@ -31,11 +31,11 @@ class SrmInkassoControllerBill extends JControllerForm
         JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
         // Set the model
-        $model	= $this->getModel('billrun', '', array());
+        $model	= $this->getModel('bill', '', array());
 
         // Preset the redirect
         $this->setRedirect(JRoute::_('index.php?option=com_srminkasso&view=bills' . $this->getRedirectToListAppend(), false));
-        return parent::batch($this->billModel);
+        return parent::batch($model);
     }
 
     /**
@@ -53,16 +53,14 @@ class SrmInkassoControllerBill extends JControllerForm
     {
         //Requestdaten holen
         $jinput = JFactory::getApplication()->input;
-        $billId =  $jinput->getInt('id',0);
-
-        //BillItem laden
-        $tblBill = SrmInkassoTableBills::getInstance();
-        $result = $tblBill->load($billId);
+        $billId =  $jinput->getInt('id',0);                 //wird nicht gebraucht, wir gehen immer ueber den BillRun, um auch nicht bestehende generieren zu koennen.
+        $fk_userId = $jinput->getInt('fk_userId',0);
+        $fk_billRunId = $jinput->getInt('fk_billRunId',0);
 
         //pdf-klasse erstellen
         $ufHelper = new UserFakturaHelper();
 
-        $pdfFileWithPath = $ufHelper->createUserFaktura($tblBill->fk_faktura,$tblBill->fk_userid);
+        $pdfFileWithPath = $ufHelper->createUserFaktura($fk_billRunId,$fk_userId);
         PdfDocument::sendPdfToBrowser($pdfFileWithPath);
     }
 }

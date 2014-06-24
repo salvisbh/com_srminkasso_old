@@ -106,10 +106,12 @@ class SrmInkassoModelBills extends JModelList
         sum(if(p.individual_preis > 0,p.individual_preis, l.preis)) as betrag,
         f.id,
         f.zahlungsdatum as zdatum,
+        fl.id as fk_billRunId,
         fl.titel,
         fl.datum,
         fl.faellig as fdatum,
         s.status,
+        cb.user_id as fk_userId,
         cb.lastname as name,
         cb.firstname as vorname,
         cb.cb_ortschaft as ort

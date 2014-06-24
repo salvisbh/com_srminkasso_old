@@ -42,7 +42,7 @@ class SrmInkassoViewBills extends JView
      * @var
      */
     protected $fakturaStatus;
-	
+
 	/**
 	 * Überschreiben der Methode display
 	 *
