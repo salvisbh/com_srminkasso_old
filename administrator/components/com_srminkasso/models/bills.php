@@ -142,7 +142,7 @@ EOD;
     if (!empty($search)) {
     	$s = $db->quote('%'.$db->escape($search, true).'%');
     	
-    	$query->where('(cb.lastname LIKE ' .$s . ' or cb.firstname LIKE ' .$s.' or fl.titel LIKE ' .$s. ')');
+    	$query->where('(cb.lastname LIKE ' .$s . ' or cb.firstname LIKE ' .$s. ' or cb.cb_ortschaft LIKE ' .$s.' or fl.titel LIKE ' .$s. ')');
     }
 
       /* auswahl des anwenders im Statusfilter ermitteln */
