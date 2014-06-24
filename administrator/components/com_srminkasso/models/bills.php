@@ -137,6 +137,9 @@ EOD;
 
     $query->group('f.id');
 
+        //Nur Positionen, welche Fakturierungslauf zugeordnet haben
+      $query->where('p.fk_faktura > 0');
+
     /* Falls eine Eingabe im Filterfeld steht: Abfrage um eine WHERE-Klausel ergänzen */
     $search = $this->getState('filter.search');
     if (!empty($search)) {
