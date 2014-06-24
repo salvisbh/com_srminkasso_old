@@ -73,4 +73,22 @@ class SrmInkassoTableActivities extends JTable
 		parent::__construct('#__srmink_leistungen', 'id', $db);
 	}
 
+    public function getActiveActivities(){
+
+        /* Referenz auf das Datenbankobjekt */
+        $db	= $this->getDbo();
+
+        /* Ein neues, leeres JDatabaseQuery-Objekt anfordern */
+        $query	= $db->getQuery(true);
+
+        /* Select-Abfrage in der Standardform aufbauen */
+        $query->select("id, concat(titel,' (', datum, ')') titel")->from('#__srmink_leistungen');
+        $query->where('archiviert=0');
+        $query->order('datum');
+
+        $db->setQuery($query);
+        $activitiesList = $db->loadObjectList();
+
+        return $activitiesList;
+    }
 }

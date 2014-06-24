@@ -29,6 +29,12 @@ class SrmInkassoHelper {
 
         /* Tab "SrmInkasso" */
         JSubMenuHelper::addEntry(
+            JText::_('Rechnungsempfänger'),
+            'index.php?option=com_srminkasso&view=users', $name == 'users'
+        );
+
+        /* Tab "SrmInkasso" */
+        JSubMenuHelper::addEntry(
             JText::_('Leistungspositionen'),
             'index.php?option=com_srminkasso&view=positions', $name == 'positions'
         );
