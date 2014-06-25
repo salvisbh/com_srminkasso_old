@@ -2,7 +2,7 @@
 
 <project name="com_srminkasso" default="dist">
 
-    <property name="version"  value="0.0.5" override="true" />
+    <property name="version"  value="0.0.6" override="true" />
     <property name="buildDir"  value="./build" override="true" />
     <property name="adminDir"  value="${buildDir}/admin" override="true" />
 
