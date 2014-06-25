@@ -162,6 +162,7 @@ class SrmInkassoTableBills extends JTable
         $select = <<<EOD
         sum(if(p.individual_preis > 0,p.individual_preis, l.preis)) as totalbetrag,
         uf.id fakturaId,
+        uf.zahlungsdatum,
         p.fk_userId userId,
         c.lastname nachname,
         c.firstname vorname,

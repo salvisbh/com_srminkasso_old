@@ -123,10 +123,11 @@ class SrmInkassoControllerBillRun extends JControllerForm
 <thead>
  <tr style="background-color:#FFFF00;color:#0000FF;">
   <td width="60"><b>Nr</b></td>
-  <td width="250"><b>Empfänger</b></td>
-  <td width="320"> <b>Tel. / eMail</b></td>
+  <td width="220"><b>Empfänger</b></td>
+  <td width="300"> <b>Tel. / eMail</b></td>
   <td width="50"><b>Total</b></td>
-  <td width="300"><b>Kontierung</b></td>
+  <td width="280"><b>Kontierung</b></td>
+  <td width="100"><b>Bezahlt</b></td>
  </tr>
 </thead>
 EOD;
@@ -145,8 +146,8 @@ EOD;
             }else{
                 $zeile = $zeile . "<td width=\"60\">" .$userBill->fakturaId .'</td>';
             }
-            $zeile = $zeile . "<td width=\"250\">" .$userBill->nachname .' ' . $userBill->vorname . ', ' .$userBill->ort . '</td>';
-            $zeile = $zeile . "<td width=\"320\">" .$userBill->telefon . ' / ' .$userBill->email .'</td>';
+            $zeile = $zeile . "<td width=\"220\">" .$userBill->nachname .' ' . $userBill->vorname . ', ' .$userBill->ort . '</td>';
+            $zeile = $zeile . "<td width=\"300\">" .$userBill->telefon . ' / ' .$userBill->email .'</td>';
             $zeile = $zeile . "<td width=\"50\">" .$userBill->totalbetrag .'</td>';
 
             //Daten fuer Kontierung holen und anhaengen
@@ -163,6 +164,8 @@ EOD;
                 $zeile = $zeile . $kto->titel . ' (' . $kto->konto . '): ' . $kto->summeLeistungsart;
                 $i++;
             }
+
+            $zeile = $zeile . "<td align=\"center\" width=\"100\">" .$userBill->zahlungsdatum .'</td>';
 
             $zeile = $zeile . '</td>';
             $zeile = $zeile . '</tr>';
